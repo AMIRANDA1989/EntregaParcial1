@@ -213,61 +213,15 @@ public class Engine {
         }
         return pisoLocation;
     }
-    
-    private void agregarPaquete(){
-        Paquete p = new Paquete();
-        p.setCodPaquete(p.codPaquete);
-        System.out.println("Ingrese el nombre del paquete");
-        p.setNombre(in.nextLine());
-        System.out.println("Ingrese la descripcion de servicios que brinda el paquete");
-        p.setDescripcion(in.nextLine());
-        System.out.println("Ingrese el precio del paquete");
-        p.setPrecio(Double.parseDouble(in.nextLine()));
-        this.packs.add(p);
-        p.codPaquete++; //incrementando el codigo del piso para la proxima insercion
-        System.out.println("Paquete agregado exitosamente con codigo: " + p.getCodPaquete());
-        System.out.println("");
-    }
-    
-    private int eliminarPaquete(int cod){
-        int location = this.buscarPackPorCodigo(cod);
-        if(location > -1 ){
-            this.packs.remove(location);
-            return 1;
-        }else{
-            return 0;
-        }
-    }
-    
-    
-    private int modificarPaquete(int cod){
-        int location = this.buscarPackPorCodigo(cod);
-        if(location > -1 ){
-            this.pisosHotel.remove(location);
-            
-            Paquete p = new Paquete();
-            p.setCodPaquete(cod);
-            System.out.println("Ingrese el nombre del paquete");
-            p.setNombre(in.nextLine());
-            System.out.println("Ingrese la descripcion de servicios que brinda el paquete");
-            p.setDescripcion(in.nextLine());
-            System.out.println("Ingrese el precio del paquete");
-            p.setPrecio(Double.parseDouble(in.nextLine()));
-            this.packs.add(location, p);
-            System.out.println("Paquete modificado exitosamente con codigo: " + p.getCodPaquete());
-            System.out.println("");
-            return 1;
-        }else{
-            return 0;
-        }
-    }
+
     /*
-    AdminHotel
+    ControlHotel
     Sirve para administrar los pisos y las habitaciones
     es privado ya que solo la clase Engine debe accederla
     de lo contrario funcionaría de manera incompleta
     */
     
+//********************************************************************************************************************************************************************************************************************
     private void controlHotel(){
         String option;
         String pisoOpt;
@@ -437,36 +391,7 @@ public class Engine {
             }//fin swicth(controlHotelStats)
         }//fin while (controlHotelStats)
     }  
-    
-    private void ingresoCliente(){
-        Cliente c = new Cliente();
-        
-        String nombre,apellido,sexo,email;
-        int edad,telefono,numtarjeta;
-        c.setNumCliente(Cliente.clienteKey);
-        System.out.println("Ingresando datos personales...");
-        System.out.println("Ingrese nombre:");
-        c.setNombre(in.nextLine());
-        System.out.println("Ingrese apellido:");
-        c.setApellido(in.nextLine());
-        System.out.println("Ingrese edad:");
-        c.setEdad(in.nextInt());
-        System.out.println("Ingrese sexo:");
-        c.setSexo(in.nextLine());
-        System.out.println("Ingrese telefono:");
-        c.setTelefono(in.nextLine());
-        System.out.println("Ingrese e-mail:");
-        c.setEmail(in.nextLine());
-        System.out.println("Ingrese numero tarjeta:");
-        c.setNumTarjeta(in.nextLine());
-        System.out.println("Datos ingresados exitosamente...");
-        System.out.println("");
-        
-        this.clientes.add(c);
-        Cliente.clienteKey++;
-
-    } 
-    
+//*********************************************************************************************************************************************************************************************+
     private void reservaHotel(){
         String option;
         boolean reservaHotelStats = true;
@@ -495,7 +420,7 @@ public class Engine {
             switch (option) {
                 case "1":
                     System.out.println("**********Realizar reservacion**********"  );
-                    this.ingresoCliente();
+                    this.inputCliente();
                     System.out.println("Habitaciones disponibles"   );
                     for(Piso p : this.pisosHotel){
                         if(p.isHabilitado()){
@@ -603,7 +528,7 @@ public class Engine {
                     
                     //ingresando datos de cliente
                     System.out.println("Se procedera a ingresar datos de cliente");
-                    this.ingresoCliente();
+                    this.inputCliente();
                                        
                     Reservacion r = new Reservacion();
                     r.setCodReservacion(Reservacion.reservKey);
@@ -637,7 +562,7 @@ public class Engine {
             }//fin swicth(reservaHotelStats)
         }//fin while (reservaHotelStats)
     }  
-    
+//******************************************************************************************************************************************************************************************
     private void clienteHotel(){
         String option;
         boolean clienteHotelStats = true;
@@ -658,15 +583,17 @@ public class Engine {
             switch (option) {
                 case "1":
                     System.out.println("***********Agregar cliente***********");
-                    this.ingresoCliente();
+                    this.inputCliente();
                     break;
                     
                 case "2":
                     System.out.println("**********Modificar cliente**********");
+                    this.searchCliente();
                     break;   
                     
                 case "3":
                     System.out.println("***********Cancelar cliente**********");
+                    this.deleteCliente();
                     break;   
                     
                 case "4":
@@ -679,7 +606,133 @@ public class Engine {
             }//fin swicth(clienteHotelStats)
         }//fin while (clienteStats)
     } 
+
+    private void inputCliente(){
+        Cliente c = new Cliente();
+        
+        String nombre,apellido,dui,sexo,telefono,numtarjeta,email;
+        int edad;
+        
+        c.setIdCliente(Cliente.clienteKey);
+        System.out.println("");
+        System.out.println("");
+        System.out.println("Ingrese nombre:");
+        c.setNombre(in.nextLine());
+        System.out.println("");
+        System.out.println("Ingrese apellido:");
+        c.setApellido(in.nextLine());
+        System.out.println("");
+        System.out.println("Ingrese dui:");
+        c.setDui(in.nextLine());
+        System.out.println("");
+        System.out.println("Ingrese edad:");
+        c.setEdad(in.nextInt());
+        System.out.println("");
+        in.nextLine();
+        System.out.println("Ingrese sexo:");
+        c.setSexo(in.nextLine());
+        System.out.println("");
+        System.out.println("Ingrese telefono:");
+        c.setTelefono(in.nextLine());
+        System.out.println("");
+        System.out.println("Ingrese e-mail:");
+        c.setEmail(in.nextLine());
+        System.out.println("");
+        System.out.println("Ingrese numero tarjeta:");
+        c.setNumTarjeta(in.nextLine());
+        System.out.println("");
+        System.out.println("Datos ingresados exitosamente...");
+        System.out.println("");
+        
+        this.clientes.add(c);
+        Cliente.clienteKey++;
+    } 
     
+    private void searchCliente(){
+        boolean f= true;
+        
+        while(f){
+            System.out.println("Buscando Cliente....");
+            System.out.println("");
+            System.out.println("Ingrese idCliente:");
+            
+            String c=in.nextLine();
+            
+            for(int i=0; i<this.clientes.size();i++){
+                if(c.equals(clientes.get(i).getIdCliente()));
+                    System.out.println("");
+                    System.out.println("Cliente ha sido encontrado...");
+                    System.out.println("");
+                    System.out.println("Nombre:"+clientes.get(i).getNombre());
+                    System.out.println("");
+                    System.out.println("Apellido:"+clientes.get(i).getApellido());
+                    System.out.println("");
+                    System.out.println("DUI:"+clientes.get(i).getDui());
+                    System.out.println("");
+                    System.out.println("Edad:"+clientes.get(i).getEdad());
+                    System.out.println("");
+                    System.out.println("Sexo:"+clientes.get(i).getSexo());
+                    System.out.println("");
+                    System.out.println("Ingrese Telefono:"+clientes.get(i).getTelefono());
+                    System.out.println("");
+                    System.out.println("E-mail:"+clientes.get(i).getEmail());
+                    System.out.println("");
+                    System.out.println("Ingrese numero tarjeta:"+clientes.get(i).getNumTarjeta());
+                    System.out.println("");
+                    f=false;
+            }
+            
+            if(f==true){
+                System.out.println("");
+                System.out.println("idCliente no existe,intentelo nuevamente...");
+                System.out.println("");
+            }
+            else{
+                f=false;
+            }
+        }    
+    } 
+
+    private void deleteCliente(){
+        Cliente c = new Cliente();
+        
+        String nombre,apellido,dui,sexo,telefono,numtarjeta,email;
+        int edad;
+        
+        c.setIdCliente(Cliente.clienteKey);
+        System.out.println("");
+        System.out.println("");
+        System.out.println("Ingrese nombre:");
+        c.setNombre(in.nextLine());
+        System.out.println("");
+        System.out.println("Ingrese apellido:");
+        c.setApellido(in.nextLine());
+        System.out.println("");
+        System.out.println("Ingrese dui:");
+        c.setDui(in.nextLine());
+        System.out.println("");
+        System.out.println("Ingrese edad:");
+        c.setEdad(in.nextInt());
+        System.out.println("");
+        in.nextLine();
+        System.out.println("Ingrese sexo:");
+        c.setSexo(in.nextLine());
+        System.out.println("");
+        System.out.println("Ingrese telefono:");
+        c.setTelefono(in.nextLine());
+        System.out.println("");
+        System.out.println("Ingrese e-mail:");
+        c.setEmail(in.nextLine());
+        System.out.println("");
+        System.out.println("Ingrese numero tarjeta:");
+        c.setNumTarjeta(in.nextLine());
+        System.out.println("");
+        System.out.println("Datos ingresados exitosamente...");
+        System.out.println("");
+        
+        this.clientes.remove(c);
+    } 
+//*********************************************************************************************************************************************************
     private void adminHotel(){
         String option;
         boolean adminHotelStats = true;
@@ -725,5 +778,53 @@ public class Engine {
                     break;
             }//fin swicth(adminHotelStats)
         }//fin while (adminHotelStats)
-    } 
+    }
+    
+    private void agregarPaquete(){
+        Paquete p = new Paquete();
+        p.setCodPaquete(p.codPaquete);
+        System.out.println("Ingrese el nombre del paquete");
+        p.setNombre(in.nextLine());
+        System.out.println("Ingrese la descripcion de servicios que brinda el paquete");
+        p.setDescripcion(in.nextLine());
+        System.out.println("Ingrese el precio del paquete");
+        p.setPrecio(Double.parseDouble(in.nextLine()));
+        this.packs.add(p);
+        p.codPaquete++; //incrementando el codigo del piso para la proxima insercion
+        System.out.println("Paquete agregado exitosamente con codigo: " + p.getCodPaquete());
+        System.out.println("");
+    }
+    
+    private int eliminarPaquete(int cod){
+        int location = this.buscarPackPorCodigo(cod);
+        if(location > -1 ){
+            this.packs.remove(location);
+            return 1;
+        }else{
+            return 0;
+        }
+    }
+    
+    private int modificarPaquete(int cod){
+        int location = this.buscarPackPorCodigo(cod);
+        if(location > -1 ){
+            this.pisosHotel.remove(location);
+            
+            Paquete p = new Paquete();
+            p.setCodPaquete(cod);
+            System.out.println("Ingrese el nombre del paquete");
+            p.setNombre(in.nextLine());
+            System.out.println("Ingrese la descripcion de servicios que brinda el paquete");
+            p.setDescripcion(in.nextLine());
+            System.out.println("Ingrese el precio del paquete");
+            p.setPrecio(Double.parseDouble(in.nextLine()));
+            this.packs.add(location, p);
+            System.out.println("Paquete modificado exitosamente con codigo: " + p.getCodPaquete());
+            System.out.println("");
+            return 1;
+        }else{
+            return 0;
+        }
+    }
+    
 }
