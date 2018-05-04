@@ -9,21 +9,18 @@ package com.classes;
 */
 public class Cliente {
     static int clienteKey = 1;
-    private int numCliente;
+    private int idCliente;
     private String nombre;
     private String apellido;
-    private int dui;
+    private String dui;
     private int edad;
     private String sexo;
     private String telefono;
     private String email;
     private String numTarjeta;
 
-    public Cliente() {
-    }
-
-    public Cliente(int numCliente, String nombre, String apellido, int dui, int edad, String sexo, String telefono, String email, String numTarjeta) {
-        this.numCliente = numCliente;
+    public Cliente(int idCliente, String nombre, String apellido, String dui, int edad, String sexo, String telefono, String email, String numTarjeta) {
+        this.idCliente = idCliente;
         this.nombre = nombre;
         this.apellido = apellido;
         this.dui = dui;
@@ -34,12 +31,14 @@ public class Cliente {
         this.numTarjeta = numTarjeta;
     }
 
-    public int getNumCliente() {
-        return numCliente;
+    Cliente() {}
+
+    public int getIdCliente() {
+        return idCliente;
     }
 
-    public void setNumCliente(int numCliente) {
-        this.numCliente = numCliente;
+    public void setIdCliente(int idCliente) {
+        this.idCliente = idCliente;
     }
 
     public String getNombre() {
@@ -58,11 +57,11 @@ public class Cliente {
         this.apellido = apellido;
     }
 
-    public int getDui() {
+    public String getDui() {
         return dui;
     }
 
-    public void setDui(int dui) {
+    public void setDui(String dui) {
         this.dui = dui;
     }
 
@@ -105,6 +104,4 @@ public class Cliente {
     public void setNumTarjeta(String numTarjeta) {
         this.numTarjeta = numTarjeta;
     }
-
-       
 }
