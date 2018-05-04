@@ -5,6 +5,9 @@
  */
 package com.classes;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Scanner;
@@ -569,9 +572,10 @@ public class Engine {
         
         System.out.println("Seleccione la operacion que desea hacer:");
         System.out.println("1 - Agregar cliente "                 );
-        System.out.println("2 - Modificar cliente"                );
+        System.out.println("2 - Buscar cliente"                );
+        System.out.println("3 - Modificar cliente"                );
         System.out.println("3 - Eliminar cliente "                );
-        System.out.println("4 - Regresar..."                      );
+        System.out.println("5 - Regresar..."                      );
             
         System.out.println("opcion:");        
         
@@ -587,16 +591,21 @@ public class Engine {
                     break;
                     
                 case "2":
-                    System.out.println("**********Modificar cliente**********");
+                    System.out.println("************Buscar cliente************");
                     this.searchCliente();
                     break;   
                     
                 case "3":
-                    System.out.println("***********Cancelar cliente**********");
+                    System.out.println("***********Modificar cliente**********");
+                    this.deleteCliente();
+                    break; 
+                    
+                case "4":
+                    System.out.println("***********Eliminar cliente**********");
                     this.deleteCliente();
                     break;   
                     
-                case "4":
+                case "5":
                     clienteHotelStats = false;
                     break;
                     
@@ -613,8 +622,12 @@ public class Engine {
         String nombre,apellido,dui,sexo,telefono,numtarjeta,email;
         int edad;
         
-        c.setIdCliente(Cliente.clienteKey);
+        String id = Integer.toString(Cliente.clienteKey);
+        
+        c.setIdCliente(id);
+        
         System.out.println("");
+        System.out.println("Esta agregando cliente id: "+Cliente.clienteKey);
         System.out.println("");
         System.out.println("Ingrese nombre:");
         c.setNombre(in.nextLine());
@@ -642,6 +655,7 @@ public class Engine {
         c.setNumTarjeta(in.nextLine());
         System.out.println("");
         System.out.println("Datos ingresados exitosamente...");
+        
         System.out.println("");
         
         this.clientes.add(c);
@@ -652,16 +666,17 @@ public class Engine {
         boolean f= true;
         
         while(f){
+            System.out.println("************************************************");
             System.out.println("Buscando Cliente....");
-            System.out.println("");
+            System.out.println("************************************************");
             System.out.println("Ingrese idCliente:");
             
-            String c=in.nextLine();
+            String clt= in.nextLine();
             
-            for(int i=0; i<this.clientes.size();i++){
-                if(c.equals(clientes.get(i).getIdCliente()));
+            for(int i=0; i<clientes.size();i++){
+                if(clt.equals(clientes.get(i).getIdCliente())){
                     System.out.println("");
-                    System.out.println("Cliente ha sido encontrado...");
+                    System.out.println("Cliente "+clientes.get(i).getIdCliente()+" ha sido encontrado...");
                     System.out.println("");
                     System.out.println("Nombre:"+clientes.get(i).getNombre());
                     System.out.println("");
@@ -680,6 +695,7 @@ public class Engine {
                     System.out.println("Ingrese numero tarjeta:"+clientes.get(i).getNumTarjeta());
                     System.out.println("");
                     f=false;
+                }
             }
             
             if(f==true){
@@ -690,46 +706,13 @@ public class Engine {
             else{
                 f=false;
             }
-        }    
+        }
     } 
+    
+    private void modCliente(){}
 
     private void deleteCliente(){
         Cliente c = new Cliente();
-        
-        String nombre,apellido,dui,sexo,telefono,numtarjeta,email;
-        int edad;
-        
-        c.setIdCliente(Cliente.clienteKey);
-        System.out.println("");
-        System.out.println("");
-        System.out.println("Ingrese nombre:");
-        c.setNombre(in.nextLine());
-        System.out.println("");
-        System.out.println("Ingrese apellido:");
-        c.setApellido(in.nextLine());
-        System.out.println("");
-        System.out.println("Ingrese dui:");
-        c.setDui(in.nextLine());
-        System.out.println("");
-        System.out.println("Ingrese edad:");
-        c.setEdad(in.nextInt());
-        System.out.println("");
-        in.nextLine();
-        System.out.println("Ingrese sexo:");
-        c.setSexo(in.nextLine());
-        System.out.println("");
-        System.out.println("Ingrese telefono:");
-        c.setTelefono(in.nextLine());
-        System.out.println("");
-        System.out.println("Ingrese e-mail:");
-        c.setEmail(in.nextLine());
-        System.out.println("");
-        System.out.println("Ingrese numero tarjeta:");
-        c.setNumTarjeta(in.nextLine());
-        System.out.println("");
-        System.out.println("Datos ingresados exitosamente...");
-        System.out.println("");
-        
         this.clientes.remove(c);
     } 
 //*********************************************************************************************************************************************************
