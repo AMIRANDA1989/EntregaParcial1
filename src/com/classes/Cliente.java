@@ -9,7 +9,7 @@ package com.classes;
 */
 public class Cliente {
     static int clienteKey = 1;
-    private int idCliente;
+    private String idCliente;
     private String nombre;
     private String apellido;
     private String dui;
@@ -19,7 +19,7 @@ public class Cliente {
     private String email;
     private String numTarjeta;
 
-    public Cliente(int idCliente, String nombre, String apellido, String dui, int edad, String sexo, String telefono, String email, String numTarjeta) {
+    public Cliente(String idCliente, String nombre, String apellido, String dui, int edad, String sexo, String telefono, String email, String numTarjeta) {
         this.idCliente = idCliente;
         this.nombre = nombre;
         this.apellido = apellido;
@@ -33,11 +33,11 @@ public class Cliente {
 
     Cliente() {}
 
-    public int getIdCliente() {
+    public String getIdCliente() {
         return idCliente;
     }
 
-    public void setIdCliente(int idCliente) {
+    public void setIdCliente(String idCliente) {
         this.idCliente = idCliente;
     }
 
