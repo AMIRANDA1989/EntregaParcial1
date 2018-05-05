@@ -978,9 +978,9 @@ public class Engine {
         boolean adminHotelStats = true;
         
         System.out.println("Seleccione la operacion que desea hacer:");
-        System.out.println("1 - Gestion de Ventas "                 );
-        System.out.println("2 - Administracion de Servicios"         );
-        System.out.println("3 - Regresar..."                         );
+        System.out.println("1 - Gestion de Ventas "     );
+        System.out.println("2 - Administracion de Servicios" );
+        System.out.println("3 - Regresar..."       );
             
         System.out.println("opcion:"); 
         
@@ -1001,12 +1001,6 @@ public class Engine {
                     System.out.println("Seleccion de Paquete:");
                     System.out.println("  1.Basico           2.Premium"          );
                     
-                    System.out.println("Modificar Servicios:"                    );
-                    System.out.println("Internet Ilimitado"                      );
-                    System.out.println("Servicio a la Habitacion"                );
-                    System.out.println("Acceso a la piscina"                     );
-                    System.out.println("Acceso al buffet desayuno"               );
-                    System.out.println("Acceso al minibar"                       );
                     break;  
                     
                 case "3":
