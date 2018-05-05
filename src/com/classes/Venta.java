@@ -8,19 +8,16 @@ package com.classes;
  * @author Nelson Flamenco
 */
 public class Venta {
+    static int ventaKey = 1;
     private int codVenta;
     private int codReservacion;
     private String fecha;
-    private String res1;
-    private String res2;
     private double total;
     
-    public Venta(int codVenta,int codReservacion,String fecha,String res1,String res2,double total){
+    public Venta(int codVenta,int codReservacion,String fecha,double total){
         this.codVenta=codVenta;
         this.codReservacion=codReservacion;
         this.fecha=fecha;
-        this.res1=res1;
-        this.res2=res2;
         this.total=total;
     }
     
@@ -37,14 +34,6 @@ public class Venta {
     public String getFecha() {
         return fecha;
     }
-
-    public String getRes1() {
-        return res1;
-    }
-    
-    public String getRes2() {
-        return res2;
-    }
     
     public double getTotal() {
         return total;
@@ -60,14 +49,6 @@ public class Venta {
     
     public void setFecha(String fecha) {
         this.fecha = fecha;
-    }
-    
-    public void setRes1(String res1) {
-        this.res1 = res1;
-    }
-    
-    public void setRes2(String res2) {
-        this.res2 = res2;
     }
     
     public void setTotal(double total) {

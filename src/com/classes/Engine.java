@@ -8,6 +8,8 @@ package com.classes;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Scanner;
@@ -26,6 +28,10 @@ public class Engine {
     private ArrayList<Paquete> packs = new ArrayList();
     private ArrayList<Cliente> clientes = new ArrayList();
     private ArrayList<Reservacion> reservaciones = new ArrayList();
+    private ArrayList<Servicio> servicios = new ArrayList();
+    private ArrayList<Venta> ventas = new ArrayList();
+    DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"); //formateador de fecha
+    LocalDateTime fechaActual;
     
 
     /*
@@ -42,8 +48,9 @@ public class Engine {
             System.out.println("1 - Control de Hotel"               );
             System.out.println("2 - Reservaciones"                  );
             System.out.println("3 - Gestor de Clientes"            );
-            System.out.println("4 - Manejo de Ventas"   );
-            System.out.println("5 - Apagar Sistema..."              );
+            System.out.println("4 - Gestor de Servicios"            );
+            System.out.println("5 - Manejo de Ventas"   );
+            System.out.println("6 - Apagar Sistema..."              );
             
             System.out.println("opcion:");
             //obteniendo valor de operacion
@@ -68,14 +75,20 @@ public class Engine {
                     System.out.println("*************GESTOR DE CLIENTES*************" );
                     this.clienteHotel();
                     break;
-                    
+                
                 case "4":
                     System.out.println("");
-                    System.out.println("********MANEJO DE VENTAS Y SERVICIOS********" );
-                    this.adminHotel();
+                    System.out.println("*************GESTOR DE CLIENTES*************" );
+                    this.gestionarServicios();
                     break;
                     
                 case "5":
+                    System.out.println("");
+                    System.out.println("********MANEJO DE VENTAS********" );
+                    this.adminHotel();
+                    break;
+                    
+                case "6":
                     System.out.println("");
                     System.out.println("*********APAGANDO SISTEMA DE HOTEL*********"  );
                     System.out.println("Adios!"                                       );
@@ -541,10 +554,34 @@ public class Engine {
                     r.setNumPersonas(cantidadPersonas);
                     r.setTotalReserva(precioPaquete + precioHabitacion);
                     
-                    this.reservaciones.add(r);
                     
-                    System.out.println("Reservacion agregada con exito");
                     
+                    System.out.println("La reservacion ha sido agregada con exito");
+                    
+                    validation = true;
+                    
+                    while(validation){
+                        System.out.println("Desea confirmar la reservacion y proceder a realizar la venta?");
+                        System.out.println("Presione Y para confirmar, otra tecla para cancelar");
+
+                        this.fechaActual = LocalDateTime.now();
+
+                        if (in.nextLine().equals("Y")){
+                            Venta v = new Venta(Venta.ventaKey,r.getCodReservacion(), dtf.format(fechaActual), r.getTotalReserva());
+                            this.reservaciones.add(r);
+                            this.ventas.add(v);
+                            Venta.ventaKey++;
+                            System.out.println("Venta realizada con exito");
+                        }else{
+                            System.out.println("La reservacion será cancelada, presione Y para confirmar, otra tecla para cancelar");
+                            
+                            if(in.nextLine().equals("Y")){
+                                validation = false;
+                                System.out.println("Reservacion cancelada con exito");
+                            }
+                        }
+                    }
+                                        
                     break;
                     
                 case "2":
@@ -772,6 +809,7 @@ public class Engine {
         p.setDescripcion(in.nextLine());
         System.out.println("Ingrese el precio del paquete");
         p.setPrecio(Double.parseDouble(in.nextLine()));
+        p.configServiciosPaquete(servicios);
         this.packs.add(p);
         p.codPaquete++; //incrementando el codigo del piso para la proxima insercion
         System.out.println("Paquete agregado exitosamente con codigo: " + p.getCodPaquete());
@@ -808,6 +846,118 @@ public class Engine {
         }else{
             return 0;
         }
+    }
+    
+    
+    private int buscarServicioPorCodigo(int codServicio){
+        int location = -1;
+        //-1 es un valor por defecto, indica que no se encontró el piso solicitado
+        //buscando a traves del arraylist el codigo del piso
+        for(int i = 0; i < this.servicios.size(); i++){
+            Servicio s = this.servicios.get(i);
+            int cod = s.getCodServicio();
+
+            if(cod == codServicio){
+                location = i;
+            }
+        }
+        return location;
+    }
+    
+    private void gestionarServicios(){
+        boolean servStats = true;
+        String option;
+        int pos;
+        
+        while(servStats){
+            System.out.println("Seleccione la operacion que desea realizar:");
+            System.out.println("1 - Ver servicios disponibles."            );
+            System.out.println("2 - Agregar servicio."            );
+            System.out.println("3 - Modificar Servicio"     );
+            System.out.println("4 - Eliminar Servicio"        );
+            System.out.println("5 - Regresar"        );
+            
+            option = in.nextLine();
+            
+            switch(option){
+                case "1":
+                    System.out.println("SERVICIOS DISPONIBLES EN EL SISTEMA");
+                    for(Servicio serv : this.servicios){
+                        System.out.println("Codigo: " + serv.getCodServicio() + ", Nombre: " + serv.getNombre() );
+                    }
+                    
+                    break;
+                
+                case "2":
+                    Servicio s = new Servicio();
+                    System.out.println("Ingrese el Nombre del servicio");
+                    s.setNombre(in.nextLine());
+                    s.setCodServicio(Servicio.servKey);
+                    this.servicios.add(s);
+                    Servicio.servKey++;
+                    System.out.println("Servicio agregado exitosamente");
+                    break;
+                    
+                case "3":
+                    System.out.println("SERVICIOS DISPONIBLES EN EL SISTEMA");
+                    for(Servicio serv : this.servicios){
+                        System.out.println("Codigo: " + serv.getCodServicio() + ", Nombre: " + serv.getNombre() );
+                    }
+                    
+                    System.out.println("Ingrese el codigo del servicio");
+                    int cod = Integer.parseInt(in.nextLine());
+                    
+                    if(this.buscarServicioPorCodigo(cod) == -1){
+                        System.out.println("El codigo ingresado no existe");
+                    }else{
+                        Servicio mod = new Servicio();
+                        System.out.println("Ingrese el Nombre del servicio");
+                        mod.setNombre(in.nextLine());
+                        mod.setCodServicio(cod);
+                        this.servicios.remove(this.buscarServicioPorCodigo(cod));
+                        
+                        if(servicios.size()==0){
+                            this.servicios.add(mod);
+                        }else{
+                            this.servicios.add(this.buscarServicioPorCodigo(cod), mod);
+                        }
+                    
+                        System.out.println("Servicio modificado exitosamente");
+                    }
+                    break;
+                
+                case "4":
+                    System.out.println("SERVICIOS DISPONIBLES EN EL SISTEMA");
+                    for(Servicio serv : this.servicios){
+                        System.out.println("Codigo: " + serv.getCodServicio() + ", Nombre: " + serv.getNombre() );
+                    }
+                    
+                    System.out.println("Ingrese el codigo del servicio");
+                    pos = Integer.parseInt(in.nextLine());
+                    
+                    if(this.buscarServicioPorCodigo(pos) == -1){
+                        System.out.println("El codigo ingresado no existe");
+                    }else{
+                        this.servicios.remove(pos);
+                        System.out.println("Servicio removido exitosamente");
+                    }
+                    
+                    break;
+                    
+                case "5":
+                    servStats = false;
+                    break;
+                    
+                default:
+                    System.out.println("Ingrese una opcion valida, por favor");
+                    break;
+            }
+            
+            
+        }
+        
+        
+        
     }
     
 }
