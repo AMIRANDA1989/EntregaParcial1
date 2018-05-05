@@ -133,28 +133,6 @@ public class Engine {
     
     public void initSettings(){
         ArrayList<Habitacion> rooms = new ArrayList();
-        //int i = 0;
-        
-        //Agregando pisos
-        /*Piso piso1 = new Piso(""+Piso.letraPiso,true);
-        Piso.letraPiso++;
-        Piso piso2 = new Piso(""+Piso.letraPiso,true);
-        Piso.letraPiso++;
-        Piso piso3 = new Piso(""+Piso.letraPiso,true);
-        Piso.letraPiso++;
-        Piso piso4 = new Piso(""+Piso.letraPiso,true);
-        Piso.letraPiso++;
-        Piso piso5 = new Piso(""+Piso.letraPiso,true);
-        Piso.letraPiso++;
-        Piso piso6 = new Piso(""+Piso.letraPiso,true);
-        Piso.letraPiso++;
-        
-        this.pisosHotel.add(piso1);
-        this.pisosHotel.add(piso2);
-        this.pisosHotel.add(piso3);
-        this.pisosHotel.add(piso4);
-        this.pisosHotel.add(piso5);
-        this.pisosHotel.add(piso6);*/
         
         Habitacion h;
         Piso pi;
@@ -178,38 +156,7 @@ public class Engine {
             this.pisosHotel.add(pi);
             
         }
-        
-        /*for(Piso p : this.pisosHotel){
-            
-            
-            
-            Habitacion h1 = new Habitacion(p.getCodPiso()+"1",true,1,true,50);
-            rooms.add(h1);
-            Habitacion h2 = new Habitacion(p.getCodPiso()+"2",true,2,true,70);
-            rooms.add(h2);
-            Habitacion h3 = new Habitacion(p.getCodPiso()+"3",true,1,true,50);
-            rooms.add(h3);
-            Habitacion h4 = new Habitacion(p.getCodPiso()+"4",true,2,true,70);
-            rooms.add(h4);
-            Habitacion h5 = new Habitacion(p.getCodPiso()+"5",true,1,true,50);
-            rooms.add(h5);
-            Habitacion h6 = new Habitacion(p.getCodPiso()+"6",true,2,true,70);
-            rooms.add(h6);
-            Habitacion h7 = new Habitacion(p.getCodPiso()+"7",true,1,true,50);
-            rooms.add(h7);
-            Habitacion h8 = new Habitacion(p.getCodPiso()+"8",true,2,true,70);
-            rooms.add(h8);
-            Habitacion h9 = new Habitacion(p.getCodPiso()+"9",true,1,true,50);
-            rooms.add(h9);
-            Habitacion h10 = new Habitacion(p.getCodPiso()+"10",true,2,true,70);
-            rooms.add(h10);
-            
-            this.pisosHotel.get(i).setHabitaciones(rooms);
-            
-            i++;
-            rooms.clear();
-            
-        }*/
+
         
         //agregando servicios
         Servicio s = new Servicio(Servicio.servKey,"Buffet");
