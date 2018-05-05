@@ -151,6 +151,9 @@ public class Piso {
             System.out.println("Se mantiene el estado");
         }
         
+        System.out.println("Agregue el precio de la habitacion");
+        h.setPrecio(Double.parseDouble(in.nextLine()));
+        
         this.habitaciones.remove(location);
         this.habitaciones.add(location, h);
         System.out.println("Habitacion modificada exitosamente ");

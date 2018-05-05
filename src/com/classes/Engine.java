@@ -8,9 +8,12 @@ package com.classes;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Scanner;
 
@@ -49,7 +52,7 @@ public class Engine {
             System.out.println("2 - Reservaciones"                  );
             System.out.println("3 - Gestor de Clientes"            );
             System.out.println("4 - Gestor de Servicios"            );
-            System.out.println("5 - Manejo de Ventas"   );
+            System.out.println("5 - Vista de Reportes"   );
             System.out.println("6 - Apagar Sistema..."              );
             
             System.out.println("opcion:");
@@ -78,14 +81,14 @@ public class Engine {
                 
                 case "4":
                     System.out.println("");
-                    System.out.println("*************GESTOR DE CLIENTES*************" );
+                    System.out.println("*************GESTOR DE SERVICIOS*************" );
                     this.gestionarServicios();
                     break;
                     
                 case "5":
                     System.out.println("");
-                    System.out.println("********MANEJO DE VENTAS********" );
-                    this.adminHotel();
+                    System.out.println("********REPORTE DE RESERVACIONES********" );
+                    this.reporteReservas();
                     break;
                     
                 case "6":
@@ -130,10 +133,10 @@ public class Engine {
     
     public void initSettings(){
         ArrayList<Habitacion> rooms = new ArrayList();
-        int i = 0;
+        //int i = 0;
         
         //Agregando pisos
-        Piso piso1 = new Piso(""+Piso.letraPiso,true);
+        /*Piso piso1 = new Piso(""+Piso.letraPiso,true);
         Piso.letraPiso++;
         Piso piso2 = new Piso(""+Piso.letraPiso,true);
         Piso.letraPiso++;
@@ -151,10 +154,35 @@ public class Engine {
         this.pisosHotel.add(piso3);
         this.pisosHotel.add(piso4);
         this.pisosHotel.add(piso5);
-        this.pisosHotel.add(piso6);
+        this.pisosHotel.add(piso6);*/
+        
+        Habitacion h;
+        Piso pi;
         
         //agregando habitaciones de los pisos
-        for(Piso p : this.pisosHotel){
+        for(int i = 0; i < 7; i++){
+            pi = new Piso(""+Piso.letraPiso,true);
+            Piso.letraPiso++;
+            
+            for(int j = 0; j < 10; j++){
+                if((j+1)%2 == 0){
+                    h = new Habitacion(pi.getCodPiso()+""+(j+1),true,2,true,70);
+                }else{
+                    h = new Habitacion(pi.getCodPiso()+""+(j+1),true,1,true,50);
+                }
+                
+                pi.habitaciones.add(h);
+            }
+            
+            
+            this.pisosHotel.add(pi);
+            
+        }
+        
+        /*for(Piso p : this.pisosHotel){
+            
+            
+            
             Habitacion h1 = new Habitacion(p.getCodPiso()+"1",true,1,true,50);
             rooms.add(h1);
             Habitacion h2 = new Habitacion(p.getCodPiso()+"2",true,2,true,70);
@@ -177,9 +205,11 @@ public class Engine {
             rooms.add(h10);
             
             this.pisosHotel.get(i).setHabitaciones(rooms);
-            i++;
             
-        }
+            i++;
+            rooms.clear();
+            
+        }*/
         
         //agregando servicios
         Servicio s = new Servicio(Servicio.servKey,"Buffet");
@@ -269,7 +299,7 @@ public class Engine {
         int pisoLocation = -1;
         //-1 es un valor por defecto, indica que no se encontró el piso solicitado
         //buscando a traves del arraylist el codigo del piso
-        for(int i = 0; i < pisosHotel.size(); i++){
+        for(int i = 0; i < packs.size(); i++){
             Paquete p = packs.get(i);
             int cod = p.getCodPaquete();
 
@@ -279,7 +309,22 @@ public class Engine {
         }
         return pisoLocation;
     }
+ 
+    private int buscarClientePorCodigo(String codigo){
+        int location = -1;
+        //-1 es un valor por defecto, indica que no se encontró el piso solicitado
+        //buscando a traves del arraylist el codigo del piso
+        for(int i = 0; i < this.clientes.size(); i++){
+            Cliente c = this.clientes.get(i);
+            String codPiso = c.getIdCliente();
 
+            if(codPiso.equals(codigo)){
+                location = i;
+            }
+        }
+        return location;
+    }
+    
     /*
     ControlHotel
     Sirve para administrar los pisos y las habitaciones
@@ -470,6 +515,7 @@ public class Engine {
         double precioPaquete = 0;
         int codCliente;
         int cantidadPersonas = 0;
+        String codHabitacion = null;
         
         while (reservaHotelStats){
             System.out.println("Seleccione la operacion que desea realizar:"    );
@@ -486,7 +532,7 @@ public class Engine {
             switch (option) {
                 case "1":
                     System.out.println("**********Realizar reservacion**********"  );
-                    this.inputCliente();
+                    //this.inputCliente();
                     System.out.println("Habitaciones disponibles"   );
                     for(Piso p : this.pisosHotel){
                         if(p.isHabilitado()){
@@ -513,6 +559,7 @@ public class Engine {
                             if(j > -1){
                                 validation = false;
                                 precioHabitacion = this.pisosHotel.get(i).habitaciones.get(j).getPrecio();
+                                codHabitacion = this.pisosHotel.get(i).habitaciones.get(j).getCodHabitacion();
                             }else{
                                 System.out.println("Habitacion ingresada de manera incorrecta");
                             }
@@ -529,10 +576,11 @@ public class Engine {
                         System.out.println("Ingrese la fecha de reserva FORMATO DD/MM/YYYY");
                         fechaReserva = in.nextLine();
                         
-                        if(fechaReserva.length() < 12){
-                            System.out.println("Favor ingrese una fecha correcta");
-                        }else{
+                        if(fechaReserva.length() == 10){
                             validation = false;
+                        }else{
+                            
+                            System.out.println("Favor ingrese una fecha correcta");
                         }
                     }
                     
@@ -599,6 +647,7 @@ public class Engine {
                     Reservacion r = new Reservacion();
                     r.setCodReservacion(Reservacion.reservKey);
                     r.setNumCliente(Cliente.clienteKey -1);
+                    r.setCodHabitacion(codHabitacion);
                     r.setDias(estadia);
                     r.setFechaHospedaje(fechaReserva);
                     r.setNumPersonas(cantidadPersonas);
@@ -621,7 +670,22 @@ public class Engine {
                             this.reservaciones.add(r);
                             this.ventas.add(v);
                             Venta.ventaKey++;
+                            
+                            //Deshabilitando la habitacion seleccionada
+                            int i = this.buscarPisoPorCodigo(codHabitacion.substring(0, 1));
+                        
+                            if(i > -1){
+                                int j = this.pisosHotel.get(i).buscarHabitacionPorCodigo(codHabitacion);
+
+                                if(j > -1){
+                                                                        precioHabitacion = this.pisosHotel.get(i).habitaciones.get(j).getPrecio();
+                                    this.pisosHotel.get(i).habitaciones.get(j).setDisponible(false);
+                              }
+                                  
+                            }
+                            
                             System.out.println("Venta realizada con exito");
+                            validation = false;
                         }else{
                             System.out.println("La reservacion será cancelada, presione Y para confirmar, otra tecla para cancelar");
                             
@@ -808,9 +872,9 @@ public class Engine {
         boolean adminHotelStats = true;
         
         System.out.println("Seleccione la operacion que desea hacer:");
-        System.out.println("1 - Gestion de Precios "                 );
-        System.out.println("2 - Administracion de Servicios"         );
-        System.out.println("3 - Regresar..."                         );
+        System.out.println("1 - Gestion de Ventas "     );
+        System.out.println("2 - Administracion de Servicios" );
+        System.out.println("3 - Regresar..."       );
             
         System.out.println("opcion:"); 
         
@@ -831,12 +895,81 @@ public class Engine {
                     System.out.println("Seleccion de Paquete:");
                     System.out.println("  1.Basico           2.Premium"          );
                     
-                    System.out.println("Modificar Servicios:"                    );
-                    System.out.println("Internet Ilimitado"                      );
-                    System.out.println("Servicio a la Habitacion"                );
-                    System.out.println("Acceso a la piscina"                     );
-                    System.out.println("Acceso al buffet desayuno"               );
-                    System.out.println("Acceso al minibar"                       );
+                    break;  
+                    
+                case "3":
+                    adminHotelStats = false;
+                    break;
+                    
+                default:
+                    System.out.println("Favor ingrese una opcion valida");
+                    break;
+            }//fin swicth(adminHotelStats)
+        }//fin while (adminHotelStats)
+}
+    
+    private void reporteReservas(){
+        String option;
+        boolean adminHotelStats = true;
+        Date hoy = new Date();
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy"); //sirve para dar un formato sencillo a la fecha
+        ArrayList<String> semana = new ArrayList();
+        
+        System.out.println("Seleccione la operacion que desea hacer:");
+        System.out.println("1 - Ver Reporte semanal de reservaciones");
+        System.out.println("2 - Ver Reporte semanal de ventas"       );
+        System.out.println("3 - Regresar..."                         );
+            
+        System.out.println("opcion:"); 
+
+        cal.setTime(hoy);
+        hoy = cal.getTime();
+        
+        for(int i = 0; i < 7; i++){
+            semana.add(sdf.format(hoy));
+            cal.add(Calendar.DATE, 1);
+            hoy = cal.getTime();
+        }
+
+        while(adminHotelStats){
+        
+            option = in.nextLine();
+
+            switch (option) {
+                case "1":
+                    hoy = cal.getTime();
+                    int idCliente;
+                    for(Reservacion r : this.reservaciones){
+                        if(r.getFechaHospedaje().equals(semana.get(0)) 
+                                || r.getFechaHospedaje().equals(semana.get(1)) 
+                                || r.getFechaHospedaje().equals(semana.get(2))
+                                || r.getFechaHospedaje().equals(semana.get(3))
+                                || r.getFechaHospedaje().equals(semana.get(4))
+                                || r.getFechaHospedaje().equals(semana.get(5))
+                                || r.getFechaHospedaje().equals(semana.get(6))                                
+                                ){
+                            
+                            idCliente = r.getNumCliente();
+                            Cliente c = this.clientes.get(this.buscarClientePorCodigo(Integer.toString(idCliente)));
+                            
+                            System.out.println("Reserva Numero: " + r.getCodReservacion());
+                            System.out.println("\t"+"Cliente: " + c.getNombre() 
+                                    + ",Fecha Hospedaje: " + r.getFechahospedaje() 
+                                    + ", Habtiacion: " + r.getCodHabitacion()
+                                    + ", Numero de Personas: " + r.getNumPersonas()
+                                    + ", Dias Reserva: " + r.getDias()
+                                    + ", Total: " + r.getTotalReserva()
+                            );
+                        }
+                    }
+        cal.add(Calendar.DATE, 10); // add 10 days
+
+                                        
+                    break;
+                    
+                case "2":
+                    System.out.println("Lo sentimos, estamos trabajando para darle un buen servicio");
                     break;  
                     
                 case "3":

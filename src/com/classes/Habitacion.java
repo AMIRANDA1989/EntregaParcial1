@@ -64,4 +64,8 @@ public class Habitacion {
     public void setDisponible(boolean disponible) {
         this.disponible = disponible;
     }
+    
+    public void setPrecio(double precio){
+        this.precio = precio;
+    }
 }

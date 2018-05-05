@@ -10,22 +10,33 @@ package com.classes;
 public class Reservacion {
     static int reservKey = 1;
     private int codReservacion;
+    private String codHabitacion;
+
     private int numCliente;
     private int dias;
     private int numPersonas;
     private String fechahospedaje;
     private double totalReserva;
     
-    public Reservacion(int codReservacion,int numCliente,int dias,int numPersonas,String fechahospedaje) {
+    public Reservacion(int codReservacion,int numCliente,int dias,int numPersonas,String fechahospedaje, String codHabitacion) {
         this.codReservacion=codReservacion;
         this.numCliente=numCliente;
         this.dias=dias;
         this.numPersonas=numPersonas;
         this.fechahospedaje=fechahospedaje;
+        this.codHabitacion = codHabitacion;
     }
     
     public Reservacion(){}
 
+     public String getCodHabitacion() {
+        return codHabitacion;
+    }
+
+    public void setCodHabitacion(String codHabitacion) {
+        this.codHabitacion = codHabitacion;
+    }
+    
     public String getFechahospedaje() {
         return fechahospedaje;
     }
@@ -83,4 +94,6 @@ public class Reservacion {
     public void setFechaHospedaje(String fechahospedaje) {
         this.fechahospedaje = fechahospedaje;
     }
+    
+    
 }
