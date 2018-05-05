@@ -120,46 +120,96 @@ public class Engine {
     
     /*
     InitSettings
-    Sirve para inicializar las variables necesarias para el hotel, es decir, pisos y habitaciones
+    Sirve para inicializar las variables necesarias para el hotel,
+    esto se puede hacer para tener una configuracion como la de la definicion del proyecto
+    o solo para pruebas.
     PARAMETROS:
     pisos: cantidad de pisos que tendrá el hotel; 
     habitaciones: Cantidad de pisos por habitacion;
     */
     
-    public void initSettings(int pisos, int habitaciones){
-        ArrayList<Habitacion> rooms;
-        //System.out.println("Inicializando configuracion de pisos");
-        //System.out.println(Character.toChars('A'+pisos));
-        //creando el piso
-        for (char alphabet = 'A'; alphabet <= 'A'+pisos; alphabet++) {
-            //System.out.println(Character.toString(alphabet));
-            rooms = new ArrayList();
-            Piso newpiso = new Piso();
-            newpiso.setCodPiso(Character.toString(alphabet));
-           
-            //agregando las habitaciones del piso, segun fue indicado en el parametro de habitaciones
-            for (int j = 1; j == habitaciones; j++){
-                Habitacion hab = new Habitacion();
-                
-                //validando si es numero par
-                if (j%2 == 0){
-                    hab.setCapacidad(2);
-                }
-                else{
-                    hab.setCapacidad(1);                                 
-                }
-                
-                hab.setCodHabitacion(Character.toString(alphabet)+Integer.toString(j));
-                hab.setDisponible(true);
-                hab.setHabilitado(true);
-                newpiso.habitaciones.add(hab);
-                
-            }//fin for (int j = 1; j == habitaciones; j++)
+    public void initSettings(){
+        ArrayList<Habitacion> rooms = new ArrayList();
+        int i = 0;
+        
+        //Agregando pisos
+        Piso piso1 = new Piso(""+Piso.letraPiso,true);
+        Piso.letraPiso++;
+        Piso piso2 = new Piso(""+Piso.letraPiso,true);
+        Piso.letraPiso++;
+        Piso piso3 = new Piso(""+Piso.letraPiso,true);
+        Piso.letraPiso++;
+        Piso piso4 = new Piso(""+Piso.letraPiso,true);
+        Piso.letraPiso++;
+        Piso piso5 = new Piso(""+Piso.letraPiso,true);
+        Piso.letraPiso++;
+        Piso piso6 = new Piso(""+Piso.letraPiso,true);
+        Piso.letraPiso++;
+        
+        this.pisosHotel.add(piso1);
+        this.pisosHotel.add(piso2);
+        this.pisosHotel.add(piso3);
+        this.pisosHotel.add(piso4);
+        this.pisosHotel.add(piso5);
+        this.pisosHotel.add(piso6);
+        
+        //agregando habitaciones de los pisos
+        for(Piso p : this.pisosHotel){
+            Habitacion h1 = new Habitacion(p.getCodPiso()+"1",true,1,true,50);
+            rooms.add(h1);
+            Habitacion h2 = new Habitacion(p.getCodPiso()+"2",true,2,true,70);
+            rooms.add(h2);
+            Habitacion h3 = new Habitacion(p.getCodPiso()+"3",true,1,true,50);
+            rooms.add(h3);
+            Habitacion h4 = new Habitacion(p.getCodPiso()+"4",true,2,true,70);
+            rooms.add(h4);
+            Habitacion h5 = new Habitacion(p.getCodPiso()+"5",true,1,true,50);
+            rooms.add(h5);
+            Habitacion h6 = new Habitacion(p.getCodPiso()+"6",true,2,true,70);
+            rooms.add(h6);
+            Habitacion h7 = new Habitacion(p.getCodPiso()+"7",true,1,true,50);
+            rooms.add(h7);
+            Habitacion h8 = new Habitacion(p.getCodPiso()+"8",true,2,true,70);
+            rooms.add(h8);
+            Habitacion h9 = new Habitacion(p.getCodPiso()+"9",true,1,true,50);
+            rooms.add(h9);
+            Habitacion h10 = new Habitacion(p.getCodPiso()+"10",true,2,true,70);
+            rooms.add(h10);
             
-            newpiso.setHabilitado(true);
-            this.pisosHotel.add(newpiso);
-
-        } // fin for (char alphabet = 'A'; alphabet <= (char)pisos; alphabet++)
+            this.pisosHotel.get(i).setHabitaciones(rooms);
+            i++;
+            
+        }
+        
+        //agregando servicios
+        Servicio s = new Servicio(Servicio.servKey,"Buffet");
+        this.servicios.add(s);
+        Servicio.servKey++;
+        s = new Servicio(Servicio.servKey,"Piscinca Ilimitada");
+        this.servicios.add(s);
+        Servicio.servKey++;
+        s = new Servicio(Servicio.servKey,"Servicio habitacion");
+        this.servicios.add(s);
+        Servicio.servKey++;
+        s = new Servicio(Servicio.servKey,"Minibar Ilimitado");
+        this.servicios.add(s);
+        Servicio.servKey++;
+        s = new Servicio(Servicio.servKey,"Internet Ilimitado");
+        this.servicios.add(s);
+        Servicio.servKey++;
+        
+        //Agregando paquetes
+        Paquete pa = new Paquete(1, "PREMIUM", "Paquete premium que incluye servicio de buffet, internet, piscina, y mas",150);
+        pa.setServicios(servicios);
+        this.packs.add(pa);
+        
+        ArrayList<Servicio> pb = new ArrayList();
+        pb.add(this.servicios.get(1));
+        pb.add(this.servicios.get(4));
+        
+        pa = new Paquete(2, "BASICO", "Paquete que incluye internet y piscina",10);
+        pa.setServicios(pb);
+        this.packs.add(pa);
     }
     
     /*
@@ -391,7 +441,7 @@ public class Engine {
                     
                 case "9":
                     System.out.println("**********Ver Paquetes**********"      );
-                    System.out.println("Esta por agregar un paquete adicional al hotel, presione Y para continuar");
+                    
                     for(int i = 0; i < packs.size(); i++){
                         Paquete p = packs.get(i);
                         System.out.println("[Paquete #" + p.getCodPaquete() + "] Nombre: " + p.getNombre() + ", Descripcion: " + p.getDescripcion() + "Precio: " + p.getPrecio());

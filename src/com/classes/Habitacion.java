@@ -23,11 +23,12 @@ public class Habitacion {
         this.precio = precio * (1+(0.10*numpiso));
     }
 
-    public Habitacion(String codHabitacion,boolean habilitado,int capacidad,boolean disponible) {
+    public Habitacion(String codHabitacion,boolean habilitado,int capacidad,boolean disponible,double precio) {
         this.codHabitacion=codHabitacion;
         this.habilitado=habilitado;
         this.capacidad=capacidad;
         this.disponible=disponible;
+        this.precio=precio;
     }
     
     public Habitacion() {}

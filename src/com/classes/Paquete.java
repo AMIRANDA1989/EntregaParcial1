@@ -27,6 +27,18 @@ public class Paquete {
     }
             
     public Paquete(){}
+
+    public Paquete(String nombre, String descripcion, double precio) {
+        this.nombre = nombre;
+        this.descripcion = descripcion;
+        this.precio = precio;
+    }
+
+    public void setServicios(ArrayList<Servicio> Servicios) {
+        this.Servicios = Servicios;
+    }
+    
+    
     
     public int getCodPaquete() {
         return codPaquete;

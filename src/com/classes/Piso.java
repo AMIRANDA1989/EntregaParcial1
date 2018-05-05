@@ -22,6 +22,13 @@ public class Piso {
     public Piso() {
     }
 
+    public Piso(String codPiso, boolean habilitado) {
+        this.codPiso = codPiso;
+        this.habilitado = habilitado;
+    }
+    
+    
+    
     public String getCodPiso() {
         return codPiso;
     }
@@ -81,6 +88,10 @@ public class Piso {
             }
         }
         return habLocation;
+    }
+
+    public void setHabitaciones(ArrayList<Habitacion> habitaciones) {
+        this.habitaciones = habitaciones;
     }
     
     /*
