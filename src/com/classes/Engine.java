@@ -47,7 +47,6 @@ public class Engine {
             System.out.println("4 - Gestor de Servicios"            );
             System.out.println("5 - Reporte de Ventas"   );
             System.out.println("6 - Apagar Sistema..."              );
-            
             System.out.println("opcion:");
             //obteniendo valor de operacion
             operation = in.nextLine(); 
@@ -235,7 +234,7 @@ public class Engine {
                     
                     if(in.nextLine().equals("y")){
                         System.out.println("precio habitacion sencilla:");
-                        precios = in.nextInt();
+                        precios = in.nextDouble();  
                     }else{
                         precios = 50;
                     }   
@@ -319,7 +318,7 @@ public class Engine {
                     
                     if(in.nextLine().equals("y")){
                         System.out.println("precio habitacion doble:");
-                        preciod = in.nextInt();
+                        preciod = in.nextDouble();  
                         in.nextLine();
                     }else{
                         preciod = 75;
@@ -352,7 +351,6 @@ public class Engine {
                             }
                             this.pisosHotel.add(pi);   
                         }    
-                        
                         break;    
                     } 
                         
@@ -405,9 +403,9 @@ public class Engine {
                     
                     if(in.nextLine().equals("y")){
                         System.out.println("precio habitacion sencilla:");
-                        precios = in.nextInt();
+                        precios = in.nextDouble();  
                         System.out.println("precio habitacion doble:");
-                        preciod = in.nextInt();
+                        preciod = in.nextDouble();  
                         in.nextLine();
                     }else{
                         precios = 50;
@@ -472,39 +470,212 @@ public class Engine {
                     break;                 
             }         
 
-        //agregando servicios
-        Servicio s = new Servicio(Servicio.servKey,"Buffet");
-        this.servicios.add(s);
-        Servicio.servKey++;
-        s = new Servicio(Servicio.servKey,"Piscina Ilimitada");
-        this.servicios.add(s);
-        Servicio.servKey++;
-        s = new Servicio(Servicio.servKey,"Servicio habitacion");
-        this.servicios.add(s);
-        Servicio.servKey++;
-        s = new Servicio(Servicio.servKey,"Minibar Ilimitado");
-        this.servicios.add(s);
-        Servicio.servKey++;
-        s = new Servicio(Servicio.servKey,"Internet Ilimitado");
-        this.servicios.add(s);
-        Servicio.servKey++;
+
+            
+            System.out.println("");
+            System.out.println("********Configuracion de Paquetes********");
+            System.out.println("Seleccione el opcion que desea agregar:");
+            System.out.println("1 - Configuracion por default");
+            System.out.println("2 - Configuracion personalizada");
+            System.out.println("3 - Omitir");
+            System.out.println("opcion:");
+            
+            option = in.nextLine();
+            
+            switch(option){
+                case "1":
+                    System.out.println("");
+                    System.out.println("Desea modificar el precio por habitacion al hotel?");
+                    System.out.println("Presione Y para aceptar u otro para agregar por defecto");
+                    System.out.println("");
+                    
+                    if(in.nextLine().equals("y")){
+                        System.out.println("Ingrese nuevo precio del paquete premium:");
+                        double premium=0,basico=0;
+                        premium = in.nextDouble();  
+                        System.out.println("");
+                        System.out.println("Ingrese nuevo precio del paquete basico:");
+                        basico = in.nextDouble();         
+                        Paquete pa = new Paquete(1, "PREMIUM", "Paquete premium que incluye servicio de buffet, internet, piscina, y mas",premium);
+                        pa.setServicios(servicios);
+                        this.packs.add(pa);
         
-        //Agregando paquetes
-        Paquete pa = new Paquete(1, "PREMIUM", "Paquete premium que incluye servicio de buffet, internet, piscina, y mas",150);
-        pa.setServicios(servicios);
-        this.packs.add(pa);
+                        ArrayList<Servicio> pb = new ArrayList();
+                        pb.add(this.servicios.get(1));
+                        pb.add(this.servicios.get(4));
+
+                        pa = new Paquete(2, "BASICO", "Paquete que incluye internet y piscina",basico);
+                        pa.setServicios(pb);
+                        this.packs.add(pa);
+                        in.nextLine();
+                    }
+                    break;
+                    
+                case "2":    
+                    System.out.println("");
+                    System.out.println("Desea agregar paquetes personalizados?");
+                    System.out.println("Presione Y para aceptar u otra para agregar configuracion por defecto.");
+                    System.out.println("");
+                    if(in.nextLine().equals("y")){
+                        System.out.println("Cuantos paquetes desea agregar?");
+                        int paquete=in.nextInt();
+
+                        for(int j = 0; j < paquete; j++){
+                            System.out.println("");
+                            System.out.println("Cuantos paquetes desea agregar?");
+                            System.out.println("Presione Y para aceptar u otro para agregar por defecto");
+                                System.out.println("Ingrese nuevo precio del paquete premium:");
+                                double precio=0;
+                                int codigo=0;
+                                String nombre,descripcion;
+                                System.out.println("");
+                                System.out.println("Ingrese codigo del paquete:");
+                                precio = in.nextInt(); 
+                                System.out.println("");
+                                System.out.println("Ingrese nombre del paquete:");
+                                nombre = in.nextLine(); 
+                                System.out.println("");
+                                System.out.println("Ingrese descripcion de lo que contendra el paquete:");
+                                descripcion = in.nextLine();
+                                System.out.println("");
+                                System.out.println("Ingrese precio del paquete:");
+                                precio = in.nextDouble();
+                                Paquete pa = new Paquete(codigo, nombre,descripcion,precio);
+                                
+                                this.añadirServicio();
+                        }
+                        in.nextLine();
+                    }
+                    else{
+                        //Agregando paquetes
+                        Paquete pa = new Paquete(1, "PREMIUM", "Paquete premium que incluye servicio de buffet, internet, piscina, y mas",150);
+                        pa.setServicios(servicios);
+                        this.packs.add(pa);
         
-        ArrayList<Servicio> pb = new ArrayList();
-        pb.add(this.servicios.get(1));
-        pb.add(this.servicios.get(4));
+                        ArrayList<Servicio> pb2 = new ArrayList();
+                        pb2.add(this.servicios.get(1));
+                        pb2.add(this.servicios.get(4));
+
+                        pa = new Paquete(2, "BASICO", "Paquete que incluye internet y piscina",10);
+                        pa.setServicios(pb2);
+                        this.packs.add(pa);
+                    }
+                    break;
+            }        
+    }        
+
+    public void añadirServicio(){        
+            System.out.println("");
+            System.out.println("********Configuracion de Servicios********");
+            System.out.println("Seleccione el opcion que desea agregar:");
+            System.out.println("1 - Configuracion por default");
+            System.out.println("2 - Configuracion personalizada");
+            System.out.println("3 - Omitir");
+            System.out.println("opcion:");
+            
+        String option = in.nextLine();
         
-        pa = new Paquete(2, "BASICO", "Paquete que incluye internet y piscina",10);
-        pa.setServicios(pb);
-        this.packs.add(pa);
-        
+            switch(option){
+                case "1":
+                    //agregando servicios
+                    Servicio s = new Servicio(Servicio.servKey,"Buffet");
+                    this.servicios.add(s);
+                    Servicio.servKey++;
+                    s = new Servicio(Servicio.servKey,"Piscina Ilimitada");
+                    this.servicios.add(s);
+                    Servicio.servKey++;
+                    s = new Servicio(Servicio.servKey,"Servicio habitacion");
+                    this.servicios.add(s);
+                    Servicio.servKey++;
+                    s = new Servicio(Servicio.servKey,"Minibar Ilimitado");
+                    this.servicios.add(s);
+                    Servicio.servKey++;
+                    s = new Servicio(Servicio.servKey,"Internet Ilimitado");
+                    this.servicios.add(s);
+                    Servicio.servKey++;
+                    break;
+                    
+                case "2":
+                    System.out.println("");
+                    System.out.println("Desea agregar servicios personalizados?");
+                    System.out.println("Presione Y para aceptar u otra para agregar configuracion por defecto.");
+                    System.out.println("");
+                    if(in.nextLine().equals("y")){
+                        //Inicializando configuracion personalizada
+                        System.out.println("Cuantos servicios desea agregar?");
+                        int servicio=in.nextInt();
+                        for(int j = 0; j < servicio; j++){
+                            System.out.println("Ingrese descripcion de servicio:");
+                            String descripserv=in.nextLine();
+                            s = new Servicio(Servicio.servKey,descripserv);
+                            this.servicios.add(s);
+                            Servicio.servKey++;
+                            in.nextLine();
+                            System.out.println("Servicio ingresado");
+                            System.out.println("");
+                        }
+                        
+                        System.out.println("Desea agregar servicios existentes por defecto?");
+                        if(in.nextLine().equals("y")){
+                            //agregando servicios existentes
+                            System.out.println("Desea agregar buffet?");
+                            if(in.nextLine().equals("y")){
+                                s = new Servicio(Servicio.servKey,"Buffet");
+                                this.servicios.add(s);
+                                Servicio.servKey++;
+                            }
+                            System.out.println("Desea agregar Piscina Ilimitada?");
+                            if(in.nextLine().equals("y")){
+                                s = new Servicio(Servicio.servKey,"Piscina Ilimitada");
+                                this.servicios.add(s);
+                                Servicio.servKey++;
+                            }
+                            System.out.println("Desea agregar Servicio habitacion?");
+                            if(in.nextLine().equals("y")){
+                                s = new Servicio(Servicio.servKey,"Servicio habitacion");
+                                this.servicios.add(s);
+                                Servicio.servKey++;
+                            }
+                            System.out.println("Desea agregar Minibar Ilimitado?");
+                            if(in.nextLine().equals("y")){
+                                s = new Servicio(Servicio.servKey,"Minibar Ilimitado");
+                                this.servicios.add(s);
+                                Servicio.servKey++;
+                            }
+                            System.out.println("Desea agregar Internet Ilimitado?");
+                            if(in.nextLine().equals("y")){
+                                s = new Servicio(Servicio.servKey,"Internet Ilimitado");
+                                this.servicios.add(s);
+                                Servicio.servKey++;
+                            }
+                        }  
+                    }   
+                    else{
+                        //agregando servicios
+                        s = new Servicio(Servicio.servKey,"Buffet");
+                        this.servicios.add(s);
+                        Servicio.servKey++;
+                        s = new Servicio(Servicio.servKey,"Piscina Ilimitada");
+                        this.servicios.add(s);
+                        Servicio.servKey++;
+                        s = new Servicio(Servicio.servKey,"Servicio habitacion");
+                        this.servicios.add(s);
+                        Servicio.servKey++;
+                        s = new Servicio(Servicio.servKey,"Minibar Ilimitado");
+                        this.servicios.add(s);
+                        Servicio.servKey++;
+                        s = new Servicio(Servicio.servKey,"Internet Ilimitado");
+                        this.servicios.add(s);
+                        Servicio.servKey++;
+                    }
+                    break;
+                case "3":
+                    break;
+            }
+            
         in.nextLine();
         System.out.println("");
-        System.out.println("Se realizo configuaracion avanzada...");
+        System.out.println("Se realizo configuaracion avanzada...");     
     }
 //*********************************************************************************************************************************************************************************************************************
     /*
