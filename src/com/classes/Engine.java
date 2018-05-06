@@ -5,16 +5,12 @@
  */
 package com.classes;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Scanner;
 
 /*
@@ -26,24 +22,21 @@ import java.util.Scanner;
 public class Engine {
     private boolean status = false; //Bandera que indica si el programa se ha inicializado su default es falso y se tiene que poner a true para que ejecute
     private String operation; //Tipo de operacion realizada
-    private ArrayList<Piso> pisosHotel = new ArrayList(); //Pisos del Hotel
     Scanner in = new Scanner(System.in); //Sirve para leer el input del usuario
-    private ArrayList<Paquete> packs = new ArrayList();
-    private ArrayList<Cliente> clientes = new ArrayList();
-    private ArrayList<Reservacion> reservaciones = new ArrayList();
-    private ArrayList<Servicio> servicios = new ArrayList();
-    private ArrayList<Venta> ventas = new ArrayList();
+    private final ArrayList<Piso> pisosHotel = new ArrayList(); //Pisos del Hotel
+    private final ArrayList<Paquete> packs = new ArrayList();
+    private final ArrayList<Cliente> clientes = new ArrayList();
+    private final ArrayList<Reservacion> reservaciones = new ArrayList();
+    private final ArrayList<Servicio> servicios = new ArrayList();
+    private final ArrayList<Venta> ventas = new ArrayList();
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"); //formateador de fecha
     LocalDateTime fechaActual;
-    
-
-    /*
-    * initSystem inicializa el sistema, es necesario ejecutarlo despues de la declaracion de un objeto de Clase Engine.
-    */
-    
+//**************************************************************************************************************************************************************************************************************************************************************
+/*
+* initSystem inicializa el sistema, es necesario ejecutarlo despues de la declaracion de un objeto de Clase Engine.
+*/
     public void initSystem(){
         this.setStatus(true);
-        System.out.println("*****************BIENVENIDO***************");
         while (this.isStatus()){
             System.out.println("");
             System.out.println("************HOTEL VIÑA RAFINHA************");
@@ -52,7 +45,7 @@ public class Engine {
             System.out.println("2 - Reservaciones"                  );
             System.out.println("3 - Gestor de Clientes"            );
             System.out.println("4 - Gestor de Servicios"            );
-            System.out.println("5 - Vista de Reportes"   );
+            System.out.println("5 - Reporte de Ventas"   );
             System.out.println("6 - Apagar Sistema..."              );
             
             System.out.println("opcion:");
@@ -120,49 +113,49 @@ public class Engine {
     public void setOperation(String operation) {
         this.operation = operation;
     }
-    
+//***************************************************************************************************************************************************************************************************************************************    
     /*
-    InitSettings
+    defaultSettings
     Sirve para inicializar las variables necesarias para el hotel,
-    esto se puede hacer para tener una configuracion como la de la definicion del proyecto
-    o solo para pruebas.
+    esto se puede hacer para tener una configuracion por defecto del Hotel Rafinha
     PARAMETROS:
-    pisos: cantidad de pisos que tendrá el hotel; 
-    habitaciones: Cantidad de pisos por habitacion;
+    6 pisos:cantidad de pisos que tendrá el hotel; 
+    10 habitaciones:Cantidad de pisos por habitacion;
     */
-    
-    public void initSettings(){
+    public void defaultSettings(){
         ArrayList<Habitacion> rooms = new ArrayList();
         
-        Habitacion h;
+        double precios=50,preciod=75;
+        
+        Habitacion h = null;
         Piso pi;
         
         //agregando habitaciones de los pisos
         for(int i = 0; i < 7; i++){
-            pi = new Piso(""+Piso.letraPiso,true);
+            pi = new Piso(" "+Piso.letraPiso,true);
             Piso.letraPiso++;
+            
+            if(i==5 || i==6){
+                precios=precios*0.10;
+                preciod=preciod*0.10;
+            }
             
             for(int j = 0; j < 10; j++){
                 if((j+1)%2 == 0){
-                    h = new Habitacion(pi.getCodPiso()+""+(j+1),true,2,true,70);
+                    h = new Habitacion(pi.getCodPiso()+""+(j+1),true,2,true,preciod);
                 }else{
-                    h = new Habitacion(pi.getCodPiso()+""+(j+1),true,1,true,50);
+                    h = new Habitacion(pi.getCodPiso()+""+(j+1),true,1,true,precios);
                 }
-                
                 pi.habitaciones.add(h);
             }
-            
-            
             this.pisosHotel.add(pi);
-            
         }
 
-        
         //agregando servicios
         Servicio s = new Servicio(Servicio.servKey,"Buffet");
         this.servicios.add(s);
         Servicio.servKey++;
-        s = new Servicio(Servicio.servKey,"Piscinca Ilimitada");
+        s = new Servicio(Servicio.servKey,"Piscina Ilimitada");
         this.servicios.add(s);
         Servicio.servKey++;
         s = new Servicio(Servicio.servKey,"Servicio habitacion");
@@ -187,99 +180,337 @@ public class Engine {
         pa = new Paquete(2, "BASICO", "Paquete que incluye internet y piscina",10);
         pa.setServicios(pb);
         this.packs.add(pa);
+        
+        System.out.println("Se realizo configuaracion por defecto...");
     }
-    
-    /*
-    agregarPiso
-    Sirve para agregar un piso adicional al edificio
-    */
-    private void agregarPiso(){
-        Piso p = new Piso();
-        p.setCodPiso(Character.toString(Piso.letraPiso));
-        this.pisosHotel.add(p);
-        Piso.letraPiso++; //incrementando el codigo del piso para la proxima insercion
-        System.out.println("Piso agregado exitosamente con codigo: " + p.getCodPiso());
+//***********************************************************************************************************************************************************************************************************************
+    public void advancedSettings(){  
+        ArrayList<Habitacion> rooms = new ArrayList();
+        
+        int piso=0,habitacion=0;
+        double precios=0,preciod=0,porcentaje=0;
+        
+        Habitacion h = null;
+        Piso pi = null;
+        
+            System.out.println("********Distribucion de habitaciones********");
+            System.out.println("Seleccione el orden que desea:");
+            System.out.println("1 - Sencillas");
+            System.out.println("2 - Dobles");
+            System.out.println("3 - Ambas(default)");
+            System.out.println("opcion:");
+            
+            String option = in.nextLine();
+            
+            switch (option) {
+                case "1":
+                    System.out.println("");
+                    System.out.println("Desea modificar la cantidad pisos al hotel?");
+                    System.out.println("Presione Y para aceptar u otro para agregar por defecto");
+                    
+                    if(in.nextLine().equals("y")){
+                        System.out.println("Cuantos pisos desea agregar?");
+                        piso = in.nextInt();
+                        in.nextLine();
+                    }else{
+                        piso = 6;
+                    }   
+                   
+                    System.out.println("");
+                    System.out.println("Desea modificar la cantidad habitaciones al hotel?");
+                    System.out.println("Presione Y para aceptar u otro para agregar por defecto");
+                    
+                    if(in.nextLine().equals("y")){
+                        System.out.println("ingrese numero de habitaciones:");
+                        habitacion = in.nextInt();
+                        in.nextLine();
+                    }else{
+                        habitacion = 10;
+                    }   
+                    
+                    System.out.println("");
+                    System.out.println("Desea modificar el precio por habitacion al hotel?");
+                    System.out.println("Presione Y para aceptar u otro para agregar por defecto");
+                    
+                    if(in.nextLine().equals("y")){
+                        System.out.println("precio habitacion sencilla:");
+                        precios = in.nextInt();
+                    }else{
+                        precios = 50;
+                    }   
+                    
+                    System.out.println("");
+                    System.out.println("Desea agregar Clase VIP?");
+                    System.out.println("NOTA: la clase vip son habitaciones en los dos ultimos pisos e incrementa su precio");
+                    System.out.println("Presione Y para aceptar u otra tecla para omitir");
+                    System.out.println("");
+                    
+                    if(in.nextLine().equals("y")){
+                        System.out.println("Ingrese porcentaje de aumento a Clase VIP:");
+                        porcentaje=in.nextInt();                    
+                    
+                        //agregando pisos
+                        for(int i = 0; i < piso; i++){
+                            pi = new Piso(" "+Piso.letraPiso,true);
+                            Piso.letraPiso++;
+                            
+                            if(i==piso-1 || i==piso-2){
+                                precios=precios*porcentaje/100;
+                                preciod=preciod*porcentaje/100;
+                            }
+                            
+                            //agregando habitaciones de los pisos
+                            for(int j = 0; j < habitacion; j++){
+                                h = new Habitacion(pi.getCodPiso()+""+(j+1),true,1,true,precios);
+                                pi.habitaciones.add(h);
+                            }
+                        }    
+                        this.pisosHotel.add(pi);   
+                        break;    
+                    } 
+                        
+                    //agregando pisos
+                    for(int i = 0; i < piso; i++){
+                        pi = new Piso(" "+Piso.letraPiso,true);
+                        Piso.letraPiso++;
+
+                        if(i==piso-1 || i==piso-2){
+                            precios=precios*0.10;
+                            preciod=preciod*0.10;
+                        }
+                        //agregando habitaciones de los pisos
+                        for(int j = 0; j < habitacion; j++){
+                            h = new Habitacion(pi.getCodPiso()+""+(j+1),true,2,true,precios);
+                            pi.habitaciones.add(h);
+                        }
+                    }
+                    this.pisosHotel.add(pi);   
+                    break; 
+                    
+                case "2":
+                    System.out.println("");
+                    System.out.println("Desea modificar la cantidad pisos al hotel?");
+                    System.out.println("Presione Y para aceptar u otro para agregar por defecto");
+                    
+                    if(in.nextLine().equals("y")){
+                        System.out.println("Cuantos pisos desea agregar?");
+                        piso = in.nextInt();
+                        in.nextLine();
+                    }else{
+                        piso = 6;
+                    }   
+                   
+                    System.out.println("");
+                    System.out.println("Desea modificar la cantidad habitaciones al hotel?");
+                    System.out.println("Presione Y para aceptar u otro para agregar por defecto");
+                    
+                    if(in.nextLine().equals("y")){
+                        System.out.println("ingrese numero de habitaciones:");
+                        habitacion = in.nextInt();
+                        in.nextLine();
+                    }else{
+                        habitacion = 10;
+                    }   
+                    
+                    System.out.println("");
+                    System.out.println("Desea modificar el precio por habitacion al hotel?");
+                    System.out.println("Presione Y para aceptar u otro para agregar por defecto");
+                    
+                    if(in.nextLine().equals("y")){
+                        System.out.println("precio habitacion doble:");
+                        preciod = in.nextInt();
+                        in.nextLine();
+                    }else{
+                        preciod = 75;
+                    }   
+                    
+                    System.out.println("");
+                    System.out.println("Desea agregar Clase VIP?");
+                    System.out.println("NOTA: la clase vip son habitaciones en los dos ultimos pisos e incrementa su precio");
+                    System.out.println("Presione Y para aceptar u otra tecla para omitir");
+                    System.out.println("");
+                    
+                    if(in.nextLine().equals("y")){
+                        System.out.println("Ingrese porcentaje de aumento a Clase VIP:");
+                        porcentaje=in.nextInt();                    
+                    
+                        //agregando pisos
+                        for(int i = 0; i < piso; i++){
+                            pi = new Piso(" "+Piso.letraPiso,true);
+                            Piso.letraPiso++;
+
+                            if(i==piso-1 || i==piso-2){
+                                precios=precios*porcentaje/100;
+                                preciod=preciod*porcentaje/100;
+                            }
+                            
+                            //agregando habitaciones de los pisos
+                            for(int j = 0; j < habitacion; j++){
+                                h = new Habitacion(pi.getCodPiso()+""+(j+1),true,2,true,preciod);
+                                pi.habitaciones.add(h);
+                            }
+                        }    
+                        this.pisosHotel.add(pi);   
+                        break;    
+                    } 
+                        
+                    //agregando pisos
+                    for(int i = 0; i < piso; i++){
+                        pi = new Piso(" "+Piso.letraPiso,true);
+                        Piso.letraPiso++;
+
+                        if(i==piso-1 || i==piso-2){
+                            precios=precios*0.10;
+                            preciod=preciod*0.10;
+                        }
+                        //agregando habitaciones de los pisos
+                        for(int j = 0; j < habitacion; j++){
+                            h = new Habitacion(pi.getCodPiso()+""+(j+1),true,1,true,preciod);
+                            pi.habitaciones.add(h);
+                        }
+                    }
+                    this.pisosHotel.add(pi);   
+                    break;    
+                    
+                case "3":
+                    System.out.println("");
+                    System.out.println("Desea modificar la cantidad pisos al hotel?");
+                    System.out.println("Presione Y para aceptar u otro para agregar por defecto");
+                    
+                    if(in.nextLine().equals("y")){
+                        System.out.println("Cuantos pisos desea agregar?");
+                        piso = in.nextInt();
+                        in.nextLine();
+                    }else{
+                        piso = 6;
+                    }   
+                   
+                    System.out.println("");
+                    System.out.println("Desea modificar la cantidad habitaciones al hotel?");
+                    System.out.println("Presione Y para aceptar u otro para agregar por defecto");
+                    
+                    if(in.nextLine().equals("y")){
+                        System.out.println("ingrese numero de habitaciones:");
+                        habitacion = in.nextInt();
+                        in.nextLine();
+                    }else{
+                        habitacion = 10;
+                    }   
+                    
+                    System.out.println("");
+                    System.out.println("Desea modificar el precio por habitacion al hotel?");
+                    System.out.println("Presione Y para aceptar u otro para agregar por defecto");
+                    
+                    if(in.nextLine().equals("y")){
+                        System.out.println("precio habitacion sencilla:");
+                        precios = in.nextInt();
+                        System.out.println("precio habitacion doble:");
+                        preciod = in.nextInt();
+                        in.nextLine();
+                    }else{
+                        precios = 50;
+                        preciod = 75;
+                    }   
+                    
+                    System.out.println("");
+                    System.out.println("Desea agregar Clase VIP?");
+                    System.out.println("NOTA: la clase vip son habitaciones en los dos ultimos pisos e incrementa su precio");
+                    System.out.println("Presione Y para aceptar u otra para agregar configuracion por defecto.");
+                    System.out.println("");
+                    
+                    if(in.nextLine().equals("y")){
+                        System.out.println("Ingrese porcentaje de aumento a Clase VIP:");
+                        porcentaje=in.nextInt();                    
+                    
+                        //agregando pisos
+                        for(int i = 0; i < piso; i++){
+                            pi = new Piso(" "+Piso.letraPiso,true);
+                            Piso.letraPiso++;
+                            
+                            if(i==piso-1 || i==piso-2){
+                                precios=precios*porcentaje/100;
+                                preciod=preciod*porcentaje/100;
+                            }
+
+                            //agregando habitaciones de los pisos
+                            for(int j = 0; j < habitacion; j++){
+                                if((j+1)%2 == 0){
+                                h = new Habitacion(pi.getCodPiso()+""+(j+1),true,2,true,preciod);
+                                }else{
+                                h = new Habitacion(pi.getCodPiso()+""+(j+1),true,1,true,precios);
+                                }
+                                pi.habitaciones.add(h);
+                            }
+                        }    
+                        this.pisosHotel.add(pi);   
+                        break;    
+                    } 
+                        
+                    //agregando pisos
+                    for(int i = 0; i < piso; i++){
+                        pi = new Piso(" "+Piso.letraPiso,true);
+                        Piso.letraPiso++;
+
+                        if(i==piso-1 || i==piso-2){
+                            precios=precios*0.10;
+                            preciod=preciod*0.10;
+                        }
+                        
+                        //agregando habitaciones de los pisos
+                        for(int j = 0; j < habitacion; j++){
+                            if((j+1)%2 == 0){
+                            h = new Habitacion(pi.getCodPiso()+""+(j+1),true,2,true,precios);
+                            }else{
+                            h = new Habitacion(pi.getCodPiso()+""+(j+1),true,1,true,preciod);
+                            }
+                            pi.habitaciones.add(h);
+                        }
+                    }
+                    this.pisosHotel.add(pi);   
+                    break;                 
+            }         
+
+        //agregando servicios
+        Servicio s = new Servicio(Servicio.servKey,"Buffet");
+        this.servicios.add(s);
+        Servicio.servKey++;
+        s = new Servicio(Servicio.servKey,"Piscina Ilimitada");
+        this.servicios.add(s);
+        Servicio.servKey++;
+        s = new Servicio(Servicio.servKey,"Servicio habitacion");
+        this.servicios.add(s);
+        Servicio.servKey++;
+        s = new Servicio(Servicio.servKey,"Minibar Ilimitado");
+        this.servicios.add(s);
+        Servicio.servKey++;
+        s = new Servicio(Servicio.servKey,"Internet Ilimitado");
+        this.servicios.add(s);
+        Servicio.servKey++;
+        
+        //Agregando paquetes
+        Paquete pa = new Paquete(1, "PREMIUM", "Paquete premium que incluye servicio de buffet, internet, piscina, y mas",150);
+        pa.setServicios(servicios);
+        this.packs.add(pa);
+        
+        ArrayList<Servicio> pb = new ArrayList();
+        pb.add(this.servicios.get(1));
+        pb.add(this.servicios.get(4));
+        
+        pa = new Paquete(2, "BASICO", "Paquete que incluye internet y piscina",10);
+        pa.setServicios(pb);
+        this.packs.add(pa);
+        
+        in.nextLine();
         System.out.println("");
+        System.out.println("Se realizo configuaracion avanzada...");
     }
-    
-    /*eliminarPiso
-    Sirve para eliminar un piso del edificio.
-    PARAMETROS
-    codigoPiso: Codigo del piso a eliminar
-    RETORNA
-    1: Eliminacion exitosa
-    0: Eliminacion fallida
-    */
-    private int eliminarPiso(String codPiso){
-        int location = this.buscarPisoPorCodigo(codPiso);
-        if(location > -1 ){
-            this.pisosHotel.remove(location);
-            return 1;
-        }else{
-            return 0;
-        }
-    }
-    
-    /*
-    buscarPisoPorCodigo
-    Sirve para buscar un piso por código
-    retorna la ubicacion del piso que se quiere buscar
-    retorna -1 si no se encuentra nada en el ArrayList
-    */
-    
-    private int buscarPisoPorCodigo(String codigo){
-        int pisoLocation = -1;
-        //-1 es un valor por defecto, indica que no se encontró el piso solicitado
-        //buscando a traves del arraylist el codigo del piso
-        for(int i = 0; i < pisosHotel.size(); i++){
-            Piso p = pisosHotel.get(i);
-            String codPiso = p.getCodPiso();
-
-            if(codPiso.equals(codigo)){
-                pisoLocation = i;
-            }
-        }
-        return pisoLocation;
-    }
-    
-    private int buscarPackPorCodigo(int codigo){
-        int pisoLocation = -1;
-        //-1 es un valor por defecto, indica que no se encontró el piso solicitado
-        //buscando a traves del arraylist el codigo del piso
-        for(int i = 0; i < packs.size(); i++){
-            Paquete p = packs.get(i);
-            int cod = p.getCodPaquete();
-
-            if(cod == codigo){
-                pisoLocation = i;
-            }
-        }
-        return pisoLocation;
-    }
- 
-    private int buscarClientePorCodigo(String codigo){
-        int location = -1;
-        //-1 es un valor por defecto, indica que no se encontró el piso solicitado
-        //buscando a traves del arraylist el codigo del piso
-        for(int i = 0; i < this.clientes.size(); i++){
-            Cliente c = this.clientes.get(i);
-            String codPiso = c.getIdCliente();
-
-            if(codPiso.equals(codigo)){
-                location = i;
-            }
-        }
-        return location;
-    }
-    
+//*********************************************************************************************************************************************************************************************************************
     /*
     ControlHotel
     Sirve para administrar los pisos y las habitaciones
     es privado ya que solo la clase Engine debe accederla
     de lo contrario funcionaría de manera incompleta
     */
-    
-//********************************************************************************************************************************************************************************************************************
     private void controlHotel(){
         String option;
         String pisoOpt;
@@ -343,7 +574,7 @@ public class Engine {
                         Piso p = pisosHotel.get(location);
                         System.out.println("El estado actual del piso es : " + p.isHabilitado() + " , Desea cambiarlo?" );
                         System.out.println("Presione Y para aceptar, N o cualquier otra tecla para cancelar");
-                        if(in.nextLine().equals("Y")){
+                        if(in.nextLine().equals("y")){
                             p.setHabilitado(!(p.isHabilitado()));
                             //Se elimina el piso para hacer la actualizacion
                             pisosHotel.remove(location);
@@ -359,7 +590,7 @@ public class Engine {
                 case "4":
                     System.out.println("**********Agregar Piso**********"      );
                     System.out.println("Esta por agregar un piso adicional al hotel, presione Y para continuar");
-                    if(in.nextLine().equals("Y")){
+                    if(in.nextLine().equals("y")){
                         this.agregarPiso();
                     }
                     break;
@@ -375,7 +606,7 @@ public class Engine {
                     if(location > -1){
                         String cod = this.pisosHotel.get(location).getCodPiso();
                         System.out.println("El piso seleccionado sera eliminado, presione Y para confirmar");
-                        if(in.nextLine().equals("Y")){
+                        if(in.nextLine().equals("y")){
                             
                             if( this.eliminarPiso(cod) == 1 ){
                                 System.out.println("Piso Eliminado con exito");
@@ -391,7 +622,7 @@ public class Engine {
                 case "6":
                     System.out.println("**********Agregar Paquete**********"      );
                     System.out.println("Esta por agregar un paquete adicional al hotel, presione Y para continuar");
-                    if(in.nextLine().equals("Y")){
+                    if(in.nextLine().equals("y")){
                         this.agregarPaquete();
                     }
                     break;
@@ -399,7 +630,7 @@ public class Engine {
                 case "7":
                     System.out.println("**********ModificarPaquete**********"      );
                     System.out.println("Esta por agregar un paquete adicional al hotel, presione Y para continuar");
-                    if(in.nextLine().equals("Y")){
+                    if(in.nextLine().equals("y")){
                         System.out.println("Ingrese el codigo del paquete");
                         if(this.modificarPaquete(Integer.parseInt(in.nextLine())) == 0){
                             System.out.println("No se ha encontrado el paquete ingresado");
@@ -418,7 +649,7 @@ public class Engine {
                     if(location > -1){
                         int cp = this.packs.get(cpack).getCodPaquete();
                         System.out.println("El paquete seleccionado sera eliminado, presione Y para confirmar");
-                        if(in.nextLine().equals("Y")){
+                        if(in.nextLine().equals("y")){
                             
                             if( this.eliminarPaquete(cp) == 1 ){
                                 System.out.println("Paquete Eliminado con exito");
@@ -478,9 +709,9 @@ public class Engine {
             
             switch (option) {
                 case "1":
-                    System.out.println("**********Realizar reservacion**********"  );
-                    //this.inputCliente();
-                    System.out.println("Habitaciones disponibles"   );
+                    System.out.println("**********Realizar reservacion**********");
+                    System.out.println("");
+                    System.out.println("Habitaciones disponibles:");
                     for(Piso p : this.pisosHotel){
                         if(p.isHabilitado()){
                             System.out.println("Piso: " + p.getCodPiso());
@@ -495,7 +726,8 @@ public class Engine {
                     
                     //ingresando habitacion
                     while(validation){
-                        System.out.println("Escriba el codigo de la habitacion que sera reservada");
+                        System.out.println("");
+                        System.out.println("Ingrese el codigo de la habitacion que sera reservada:");
                         codRoom = in.nextLine();
                         
                         int i = this.buscarPisoPorCodigo(codRoom.substring(0, 1));
@@ -513,20 +745,19 @@ public class Engine {
                                   
                         }else{
                             System.out.println("Piso ingresado de manera incorrecta");
-                        }
-                        
+                        }  
                     }
                     
                     //ingresando fecha
                     validation = true;
                     while(validation){
+                        System.out.println("");
                         System.out.println("Ingrese la fecha de reserva FORMATO DD/MM/YYYY");
                         fechaReserva = in.nextLine();
                         
                         if(fechaReserva.length() == 10){
                             validation = false;
                         }else{
-                            
                             System.out.println("Favor ingrese una fecha correcta");
                         }
                     }
@@ -534,7 +765,8 @@ public class Engine {
                     //ingresando dias
                     validation = true;
                     while(validation){
-                        System.out.println("Ingrese la cantidad de dias de estadia");
+                        System.out.println("");
+                        System.out.println("Ingrese la cantidad de dias de estadia:");
                         estadia = Integer.parseInt(in.nextLine());
                         
                         if(estadia <1 || estadia>7){
@@ -542,15 +774,13 @@ public class Engine {
                         }else{
                             validation = false;
                         }
-                        
                     }
                     
                     //ingresando paquete, si es necesario
                     System.out.println("Desea agregar un paquete? Presion Y para aceptar, cualquier otra tecla para cancelar");
                     
-                    if(in.nextLine().equals("Y")){
+                    if(in.nextLine().equals("y")){
                         validation = true;
-                        
                         while(validation){
                             System.out.println("Paquetes disponibles");
                             for(int i = 0; i < this.packs.size(); i++){
@@ -628,11 +858,11 @@ public class Engine {
                                                                         precioHabitacion = this.pisosHotel.get(i).habitaciones.get(j).getPrecio();
                                     this.pisosHotel.get(i).habitaciones.get(j).setDisponible(false);
                               }
-                                  
                             }
                             
                             System.out.println("Venta realizada con exito");
                             validation = false;
+                            this.initSystem();
                         }else{
                             System.out.println("La reservacion será cancelada, presione Y para confirmar, otra tecla para cancelar");
                             
@@ -641,8 +871,7 @@ public class Engine {
                                 System.out.println("Reservacion cancelada con exito");
                             }
                         }
-                    }
-                                        
+                    }           
                     break;
                     
                 case "2":
@@ -764,9 +993,8 @@ public class Engine {
         boolean f= true;
         
         while(f){
-            System.out.println("************************************************");
-            System.out.println("Buscando Cliente....");
-            System.out.println("************************************************");
+            System.out.println("***************Buscando Cliente*****************");
+            System.out.println("");
             System.out.println("Ingrese idCliente:");
             
             String clt= in.nextLine();
@@ -807,54 +1035,11 @@ public class Engine {
         }
     } 
     
-    private void modCliente(){}
+    public void modCliente(){}
 
-    private void deleteCliente(){
-        Cliente c = new Cliente();
-        this.clientes.remove(c);
+    public void deleteCliente(){
     } 
-//*********************************************************************************************************************************************************
-    private void adminHotel(){
-        String option;
-        boolean adminHotelStats = true;
-        
-        System.out.println("Seleccione la operacion que desea hacer:");
-        System.out.println("1 - Gestion de Ventas "     );
-        System.out.println("2 - Administracion de Servicios" );
-        System.out.println("3 - Regresar..."       );
-            
-        System.out.println("opcion:"); 
-        
-        while(adminHotelStats){
-            System.out.println("");
-
-            option = in.nextLine();
-            
-            switch (option) {
-                case "1":
-                    System.out.println("***********Gestion de Precios***********");
-                    System.out.println("Modificar precio por:"                   );
-                    System.out.println("  1.Habitacion      2.Paquete       "    );
-                    break;
-                    
-                case "2":
-                    System.out.println("******Administracion de Servicios*******");
-                    System.out.println("Seleccion de Paquete:");
-                    System.out.println("  1.Basico           2.Premium"          );
-                    
-                    break;  
-                    
-                case "3":
-                    adminHotelStats = false;
-                    break;
-                    
-                default:
-                    System.out.println("Favor ingrese una opcion valida");
-                    break;
-            }//fin swicth(adminHotelStats)
-        }//fin while (adminHotelStats)
-}
-    
+//*******************************************************************************************************************************************************************************************************************************************
     private void reporteReservas(){
         String option;
         boolean adminHotelStats = true;
@@ -929,7 +1114,7 @@ public class Engine {
             }//fin swicth(adminHotelStats)
         }//fin while (adminHotelStats)
     }
-    
+//********************************************************************************************************************************************************************************************************************************************************
     private void agregarPaquete(){
         Paquete p = new Paquete();
         p.setCodPaquete(p.codPaquete);
@@ -977,7 +1162,6 @@ public class Engine {
             return 0;
         }
     }
-    
     
     private int buscarServicioPorCodigo(int codServicio){
         int location = -1;
@@ -1081,13 +1265,90 @@ public class Engine {
                 default:
                     System.out.println("Ingrese una opcion valida, por favor");
                     break;
-            }
-            
-            
+            } 
         }
-        
-        
-        
+    }  
+    /*
+    agregarPiso
+    Sirve para agregar un piso adicional al edificio
+    */
+    public void agregarPiso(){
+        Piso p = new Piso();
+        p.setCodPiso(Character.toString(Piso.letraPiso));
+        this.pisosHotel.add(p);
+        Piso.letraPiso++; //incrementando el codigo del piso para la proxima insercion
+        System.out.println("Piso agregado exitosamente con codigo: " + p.getCodPiso());
+        System.out.println("");
     }
     
+    /*eliminarPiso
+    Sirve para eliminar un piso del edificio.
+    PARAMETROS
+    codigoPiso: Codigo del piso a eliminar
+    RETORNA
+    1: Eliminacion exitosa
+    0: Eliminacion fallida
+    */
+    
+    private int eliminarPiso(String codPiso){
+        int location = this.buscarPisoPorCodigo(codPiso);
+        if(location > -1 ){
+            this.pisosHotel.remove(location);
+            return 1;
+        }else{
+            return 0;
+        }
+    }
+    
+    /*
+    buscarPisoPorCodigo
+    Sirve para buscar un piso por código
+    retorna la ubicacion del piso que se quiere buscar
+    retorna -1 si no se encuentra nada en el ArrayList
+    */
+    
+    private int buscarPisoPorCodigo(String codigo){
+        int pisoLocation = -1;
+        //-1 es un valor por defecto, indica que no se encontró el piso solicitado
+        //buscando a traves del arraylist el codigo del piso
+        for(int i = 0; i < pisosHotel.size(); i++){
+            Piso p = pisosHotel.get(i);
+            String codPiso = p.getCodPiso();
+
+            if(codPiso.equals(codigo)){
+                pisoLocation = i;
+            }
+        }
+        return pisoLocation;
+    }
+    
+    private int buscarPackPorCodigo(int codigo){
+        int pisoLocation = -1;
+        //-1 es un valor por defecto, indica que no se encontró el piso solicitado
+        //buscando a traves del arraylist el codigo del piso
+        for(int i = 0; i < packs.size(); i++){
+            Paquete p = packs.get(i);
+            int cod = p.getCodPaquete();
+
+            if(cod == codigo){
+                pisoLocation = i;
+            }
+        }
+        return pisoLocation;
+    }
+ 
+    private int buscarClientePorCodigo(String codigo){
+        int location = -1;
+        //-1 es un valor por defecto, indica que no se encontró el piso solicitado
+        //buscando a traves del arraylist el codigo del piso
+        for(int i = 0; i < this.clientes.size(); i++){
+            Cliente c = this.clientes.get(i);
+            String codPiso = c.getIdCliente();
+
+            if(codPiso.equals(codigo)){
+                location = i;
+            }
+        }
+        return location;
+    }
 }
