@@ -48,5 +48,6 @@ public class Parcial1 {
                 system.initSystem(); //Iniciando sistema
             }    
         }
+        system.initSystem(); //Iniciando sistema
     }
 }
