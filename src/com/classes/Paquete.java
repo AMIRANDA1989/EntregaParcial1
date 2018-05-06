@@ -38,8 +38,6 @@ public class Paquete {
         this.Servicios = Servicios;
     }
     
-    
-    
     public int getCodPaquete() {
         return codPaquete;
     }
@@ -80,7 +78,6 @@ public class Paquete {
         }else{
             System.out.println("El servicio que se desea agregar ya existe en el paquete");
         }
-        
     }
     
     public void removerServicio(int codServicio){
@@ -92,8 +89,6 @@ public class Paquete {
         }else{
             System.out.println("El servicio que se desea agregar no existe en el paquete");
         }
-        
-        
     }
     
     //Busca entre los servicios asignados al paquete
