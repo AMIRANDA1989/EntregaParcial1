@@ -181,6 +181,7 @@ public class Engine {
         pa.setServicios(pb);
         this.packs.add(pa);
         
+        System.out.println("");
         System.out.println("Se realizo configuaracion por defecto...");
     }
 //***********************************************************************************************************************************************************************************************************************
@@ -283,8 +284,8 @@ public class Engine {
                             h = new Habitacion(pi.getCodPiso()+""+(j+1),true,2,true,precios);
                             pi.habitaciones.add(h);
                         }
+                        this.pisosHotel.add(pi);  
                     }
-                    this.pisosHotel.add(pi);   
                     break; 
                     
                 case "2":
@@ -349,8 +350,9 @@ public class Engine {
                                 h = new Habitacion(pi.getCodPiso()+""+(j+1),true,2,true,preciod);
                                 pi.habitaciones.add(h);
                             }
+                            this.pisosHotel.add(pi);   
                         }    
-                        this.pisosHotel.add(pi);   
+                        
                         break;    
                     } 
                         
@@ -368,8 +370,8 @@ public class Engine {
                             h = new Habitacion(pi.getCodPiso()+""+(j+1),true,1,true,preciod);
                             pi.habitaciones.add(h);
                         }
-                    }
-                    this.pisosHotel.add(pi);   
+                        this.pisosHotel.add(pi); 
+                    }  
                     break;    
                     
                 case "3":
@@ -441,8 +443,8 @@ public class Engine {
                                 }
                                 pi.habitaciones.add(h);
                             }
-                        }    
-                        this.pisosHotel.add(pi);   
+                            this.pisosHotel.add(pi);
+                        }       
                         break;    
                     } 
                         
@@ -465,8 +467,8 @@ public class Engine {
                             }
                             pi.habitaciones.add(h);
                         }
+                        this.pisosHotel.add(pi); 
                     }
-                    this.pisosHotel.add(pi);   
                     break;                 
             }         
 
