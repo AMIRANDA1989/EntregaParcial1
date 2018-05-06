@@ -19,7 +19,7 @@ public class Parcial1 {
         Engine system = new Engine();
         Scanner in = new Scanner(System.in); //Sirve para leer el input del usuario
         
-        System.out.println("*********BIENVENIDO*********");
+        System.out.println("*************BIENVENIDO*************");
         System.out.println("Antes de comenzar,desea iniciar con la configuracion por defecto?");
         System.out.println("La configuracion por defecto agrega 6 pisos, 10 habitaciones por piso y 2 paquetes de servicios.");
         System.out.println("");
@@ -27,12 +27,29 @@ public class Parcial1 {
         System.out.println("Recomendacion: Solo usuarios avanzados...");
         System.out.println("");
         System.out.println("Desea inicial con la configuracion por defecto?");
-        System.out.println("Presione Y para aceptar, otra tecla para cancelar");
+        System.out.println("Presione Y para aceptar,otra tecla para omitir");
         
-        if(in.nextLine().equals("Y")){
-            system.initSettings();        //Inicializando configuracion
+        if(in.nextLine().equals("y")){
+            system.defaultSettings();        //Inicializando configuracion por defecto
         }
-        //Iniciando sistema
-        system.initSystem();
+        else{
+            do{
+               System.out.println(""); 
+               System.out.println("Desea ingresar la configuracion avanzada de hotel?");
+               System.out.println("Presione Y para aceptar o N para configuracion por defecto");
+               System.out.println("Opcion:");
+               if(in.nextLine().equals("y")){
+                   System.out.println("**********Configuracion Avanzada**********");
+                   System.out.println("");
+                   system.advancedSettings();   //funcion configuracion avanzada.
+                   system.initSystem(); //Iniciando sistema
+               }
+               if(in.nextLine().equals("n")){
+                   System.out.println("Iniciando con la configuracion por defecto...");
+                   system.defaultSettings(); //Inicializando configuracion por defecto
+               }
+            }while(!in.nextLine().equals("y"));        
+        }
+        system.initSystem(); //Iniciando sistema
     }
 }
