@@ -27,8 +27,6 @@ public class Piso {
         this.habilitado = habilitado;
     }
     
-    
-    
     public String getCodPiso() {
         return codPiso;
     }
@@ -185,9 +183,6 @@ public class Piso {
         int location;
         
         while(admStats){
-            System.out.println("");
-            System.out.println("");
-            System.out.println("*****HOTEL VIÑA RAFINHA*****");
             System.out.println("**ADMINISTRACION DE HABITACIONES**");
             System.out.println("Seleccione la operacion que desea hacer:");
             System.out.println("1 - Revisar estado de habitaciones.");
