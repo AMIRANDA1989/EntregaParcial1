@@ -31,87 +31,6 @@ public class Engine {
     private final ArrayList<Venta> ventas = new ArrayList();
     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss"); //formateador de fecha
     LocalDateTime fechaActual;
-//**************************************************************************************************************************************************************************************************************************************************************
-/*
-* initSystem inicializa el sistema, es necesario ejecutarlo despues de la declaracion de un objeto de Clase Engine.
-*/
-    public void initSystem(){
-        this.setStatus(true);
-        while (this.isStatus()){
-            System.out.println("");
-            System.out.println("************HOTEL VIÑA RAFINHA************");
-            System.out.println("Seleccione en el menú la opcion que desea:");
-            System.out.println("1 - Control de Hotel"               );
-            System.out.println("2 - Reservaciones"                  );
-            System.out.println("3 - Gestor de Clientes"            );
-            System.out.println("4 - Gestor de Servicios"            );
-            System.out.println("5 - Reporte de Ventas"   );
-            System.out.println("6 - Apagar Sistema..."              );
-            System.out.println("opcion:");
-            //obteniendo valor de operacion
-            operation = in.nextLine(); 
-            
-            //validando valor de operacion
-            switch (operation){
-                case "1":
-                    System.out.println("");
-                    System.out.println("**************CONTROL DE HOTEL**************" );
-                    this.controlHotel();
-                    break;
-                    
-                case "2":
-                    System.out.println("");
-                    System.out.println("***************RESERVACIONES***************"  );
-                    this.reservaHotel();
-                    break;  
-                    
-                case "3":
-                    System.out.println("");
-                    System.out.println("*************GESTOR DE CLIENTES*************" );
-                    this.clienteHotel();
-                    break;
-                
-                case "4":
-                    System.out.println("");
-                    System.out.println("*************GESTOR DE SERVICIOS*************" );
-                    this.gestionarServicios();
-                    break;
-                    
-                case "5":
-                    System.out.println("");
-                    System.out.println("********REPORTE DE RESERVACIONES********" );
-                    this.reporteReservas();
-                    break;
-                    
-                case "6":
-                    System.out.println("");
-                    System.out.println("*********APAGANDO SISTEMA DE HOTEL*********"  );
-                    System.out.println("Adios!"                                       );
-                    this.setStatus(false);
-                    break;
-                    
-                default: 
-                    System.out.println("Favor ingrese una operacion valida..."        );
-                    break;
-            }
-        }
-    }
-    
-    public boolean isStatus() {
-        return status;
-    }
-
-    public void setStatus(boolean status) {
-        this.status = status;
-    }
-
-    public String getOperation() {
-        return operation;
-    }
-
-    public void setOperation(String operation) {
-        this.operation = operation;
-    }
 //***************************************************************************************************************************************************************************************************************************************    
     /*
     defaultSettings
@@ -470,22 +389,21 @@ public class Engine {
                     break;                 
             }         
 
-
-            
             System.out.println("");
             System.out.println("********Configuracion de Paquetes********");
             System.out.println("Seleccione el opcion que desea agregar:");
             System.out.println("1 - Configuracion por default");
             System.out.println("2 - Configuracion personalizada");
             System.out.println("3 - Omitir");
-            System.out.println("opcion:");
+            System.out.println("Opcion:");
             
+            in.nextLine();
             option = in.nextLine();
             
             switch(option){
                 case "1":
                     System.out.println("");
-                    System.out.println("Desea modificar el precio por habitacion al hotel?");
+                    System.out.println("Desea modificar el precio por paquete premium/basico al hotel?");
                     System.out.println("Presione Y para aceptar u otro para agregar por defecto");
                     System.out.println("");
                     
@@ -496,6 +414,54 @@ public class Engine {
                         System.out.println("");
                         System.out.println("Ingrese nuevo precio del paquete basico:");
                         basico = in.nextDouble();         
+                        Paquete pa = new Paquete(1, "PREMIUM", "Paquete premium que incluye servicio de buffet, internet, piscina, y mas",premium);
+                        pa.setServicios(servicios);
+                        this.packs.add(pa);
+        
+                        //agregando servicios
+                        Servicio s = new Servicio(Servicio.servKey,"Buffet");
+                        this.servicios.add(s);
+                        Servicio.servKey++;
+                        s = new Servicio(Servicio.servKey,"Piscina Ilimitada");
+                        this.servicios.add(s);
+                        Servicio.servKey++;
+                        s = new Servicio(Servicio.servKey,"Servicio habitacion");
+                        this.servicios.add(s);
+                        Servicio.servKey++;
+                        s = new Servicio(Servicio.servKey,"Minibar Ilimitado");
+                        this.servicios.add(s);
+                        Servicio.servKey++;
+                        s = new Servicio(Servicio.servKey,"Internet Ilimitado");
+                        this.servicios.add(s);
+                        Servicio.servKey++;
+        
+                        ArrayList<Servicio> pb = new ArrayList();
+                        pb.add(this.servicios.get(1));
+                        pb.add(this.servicios.get(4));
+
+                        pa = new Paquete(2, "BASICO", "Paquete que incluye internet y piscina",basico);
+                        pa.setServicios(pb);
+                        this.packs.add(pa);
+                        in.nextLine();
+                    }
+                    else{
+                        Servicio s = new Servicio(Servicio.servKey,"Buffet");
+                        this.servicios.add(s);
+                        Servicio.servKey++;
+                        s = new Servicio(Servicio.servKey,"Piscina Ilimitada");
+                        this.servicios.add(s);
+                        Servicio.servKey++;
+                        s = new Servicio(Servicio.servKey,"Servicio habitacion");
+                        this.servicios.add(s);
+                        Servicio.servKey++;
+                        s = new Servicio(Servicio.servKey,"Minibar Ilimitado");
+                        this.servicios.add(s);
+                        Servicio.servKey++;
+                        s = new Servicio(Servicio.servKey,"Internet Ilimitado");
+                        this.servicios.add(s);
+                        Servicio.servKey++;
+                        
+                        double premium=150,basico=10;      
                         Paquete pa = new Paquete(1, "PREMIUM", "Paquete premium que incluye servicio de buffet, internet, piscina, y mas",premium);
                         pa.setServicios(servicios);
                         this.packs.add(pa);
@@ -518,35 +484,33 @@ public class Engine {
                     System.out.println("");
                     if(in.nextLine().equals("y")){
                         System.out.println("Cuantos paquetes desea agregar?");
+                        System.out.println("Presione Y para aceptar u otro para agregar por defecto");
+                        System.out.println("numero:");
                         int paquete=in.nextInt();
 
                         for(int j = 0; j < paquete; j++){
-                            System.out.println("");
-                            System.out.println("Cuantos paquetes desea agregar?");
-                            System.out.println("Presione Y para aceptar u otro para agregar por defecto");
-                                System.out.println("Ingrese nuevo precio del paquete premium:");
-                                double precio=0;
-                                int codigo=0;
-                                String nombre,descripcion;
-                                System.out.println("");
-                                System.out.println("Ingrese codigo del paquete:");
-                                precio = in.nextInt(); 
-                                System.out.println("");
-                                System.out.println("Ingrese nombre del paquete:");
-                                nombre = in.nextLine(); 
-                                System.out.println("");
-                                System.out.println("Ingrese descripcion de lo que contendra el paquete:");
-                                descripcion = in.nextLine();
-                                System.out.println("");
-                                System.out.println("Ingrese precio del paquete:");
-                                precio = in.nextDouble();
-                                Paquete pa = new Paquete(codigo, nombre,descripcion,precio);
-                                
-                                this.añadirServicio();
-                        }
-                        in.nextLine();
-                    }
+                            this.agregarPaquete();
+                        }  
+                        
+                        this.añadirServicio(); 
+                    }    
                     else{
+                        //agregando servicios
+                        Servicio s = new Servicio(Servicio.servKey,"Buffet");
+                        this.servicios.add(s);
+                        Servicio.servKey++;
+                        s = new Servicio(Servicio.servKey,"Piscina Ilimitada");
+                        this.servicios.add(s);
+                        Servicio.servKey++;
+                        s = new Servicio(Servicio.servKey,"Servicio habitacion");
+                        this.servicios.add(s);
+                        Servicio.servKey++;
+                        s = new Servicio(Servicio.servKey,"Minibar Ilimitado");
+                        this.servicios.add(s);
+                        Servicio.servKey++;
+                        s = new Servicio(Servicio.servKey,"Internet Ilimitado");
+                        this.servicios.add(s);
+                        Servicio.servKey++;
                         //Agregando paquetes
                         Paquete pa = new Paquete(1, "PREMIUM", "Paquete premium que incluye servicio de buffet, internet, piscina, y mas",150);
                         pa.setServicios(servicios);
@@ -563,120 +527,83 @@ public class Engine {
                     break;
             }        
     }        
-
-    public void añadirServicio(){        
+//**************************************************************************************************************************************************************************************************************************************************************
+/*
+* initSystem inicializa el sistema, es necesario ejecutarlo despues de la declaracion de un objeto de Clase Engine.
+*/
+    public void initSystem(){
+        this.setStatus(true);
+        while (this.isStatus()){
             System.out.println("");
-            System.out.println("********Configuracion de Servicios********");
-            System.out.println("Seleccione el opcion que desea agregar:");
-            System.out.println("1 - Configuracion por default");
-            System.out.println("2 - Configuracion personalizada");
-            System.out.println("3 - Omitir");
+            System.out.println("************HOTEL VIÑA RAFINHA************");
+            System.out.println("Seleccione en el menú la opcion que desea:");
+            System.out.println("1 - Control de Hotel"               );
+            System.out.println("2 - Reservaciones"                  );
+            System.out.println("3 - Gestor de Clientes"            );
+            System.out.println("4 - Gestor de Servicios"            );
+            System.out.println("5 - Reporte de Ventas"   );
+            System.out.println("6 - Apagar Sistema..."              );
             System.out.println("opcion:");
+            //obteniendo valor de operacion
+            operation = in.nextLine(); 
             
-        String option = in.nextLine();
-        
-            switch(option){
+            //validando valor de operacion
+            switch (operation){
                 case "1":
-                    //agregando servicios
-                    Servicio s = new Servicio(Servicio.servKey,"Buffet");
-                    this.servicios.add(s);
-                    Servicio.servKey++;
-                    s = new Servicio(Servicio.servKey,"Piscina Ilimitada");
-                    this.servicios.add(s);
-                    Servicio.servKey++;
-                    s = new Servicio(Servicio.servKey,"Servicio habitacion");
-                    this.servicios.add(s);
-                    Servicio.servKey++;
-                    s = new Servicio(Servicio.servKey,"Minibar Ilimitado");
-                    this.servicios.add(s);
-                    Servicio.servKey++;
-                    s = new Servicio(Servicio.servKey,"Internet Ilimitado");
-                    this.servicios.add(s);
-                    Servicio.servKey++;
+                    System.out.println("");
+                    this.controlHotel();
                     break;
                     
                 case "2":
-                    System.out.println("");
-                    System.out.println("Desea agregar servicios personalizados?");
-                    System.out.println("Presione Y para aceptar u otra para agregar configuracion por defecto.");
-                    System.out.println("");
-                    if(in.nextLine().equals("y")){
-                        //Inicializando configuracion personalizada
-                        System.out.println("Cuantos servicios desea agregar?");
-                        int servicio=in.nextInt();
-                        for(int j = 0; j < servicio; j++){
-                            System.out.println("Ingrese descripcion de servicio:");
-                            String descripserv=in.nextLine();
-                            s = new Servicio(Servicio.servKey,descripserv);
-                            this.servicios.add(s);
-                            Servicio.servKey++;
-                            in.nextLine();
-                            System.out.println("Servicio ingresado");
-                            System.out.println("");
-                        }
-                        
-                        System.out.println("Desea agregar servicios existentes por defecto?");
-                        if(in.nextLine().equals("y")){
-                            //agregando servicios existentes
-                            System.out.println("Desea agregar buffet?");
-                            if(in.nextLine().equals("y")){
-                                s = new Servicio(Servicio.servKey,"Buffet");
-                                this.servicios.add(s);
-                                Servicio.servKey++;
-                            }
-                            System.out.println("Desea agregar Piscina Ilimitada?");
-                            if(in.nextLine().equals("y")){
-                                s = new Servicio(Servicio.servKey,"Piscina Ilimitada");
-                                this.servicios.add(s);
-                                Servicio.servKey++;
-                            }
-                            System.out.println("Desea agregar Servicio habitacion?");
-                            if(in.nextLine().equals("y")){
-                                s = new Servicio(Servicio.servKey,"Servicio habitacion");
-                                this.servicios.add(s);
-                                Servicio.servKey++;
-                            }
-                            System.out.println("Desea agregar Minibar Ilimitado?");
-                            if(in.nextLine().equals("y")){
-                                s = new Servicio(Servicio.servKey,"Minibar Ilimitado");
-                                this.servicios.add(s);
-                                Servicio.servKey++;
-                            }
-                            System.out.println("Desea agregar Internet Ilimitado?");
-                            if(in.nextLine().equals("y")){
-                                s = new Servicio(Servicio.servKey,"Internet Ilimitado");
-                                this.servicios.add(s);
-                                Servicio.servKey++;
-                            }
-                        }  
-                    }   
-                    else{
-                        //agregando servicios
-                        s = new Servicio(Servicio.servKey,"Buffet");
-                        this.servicios.add(s);
-                        Servicio.servKey++;
-                        s = new Servicio(Servicio.servKey,"Piscina Ilimitada");
-                        this.servicios.add(s);
-                        Servicio.servKey++;
-                        s = new Servicio(Servicio.servKey,"Servicio habitacion");
-                        this.servicios.add(s);
-                        Servicio.servKey++;
-                        s = new Servicio(Servicio.servKey,"Minibar Ilimitado");
-                        this.servicios.add(s);
-                        Servicio.servKey++;
-                        s = new Servicio(Servicio.servKey,"Internet Ilimitado");
-                        this.servicios.add(s);
-                        Servicio.servKey++;
-                    }
-                    break;
+                    System.out.println("");    
+                    this.reservaHotel();
+                    break;  
+                    
                 case "3":
+                    System.out.println("");
+                    this.clienteHotel();
+                    break;
+                
+                case "4":
+                    System.out.println("");
+                    this.servicioHotel();
+                    break;
+                    
+                case "5":
+                    System.out.println("");
+                    this.reporteVentas();
+                    break;
+                    
+                case "6":
+                    System.out.println("");
+                    System.out.println("**********APAGANDO SISTEMA DE HOTEL**********");
+                    System.out.println("Adios!");
+                    this.setStatus(false);
+                    break;
+                    
+                default: 
+                    System.out.println("Favor ingrese una operacion valida..."        );
                     break;
             }
-            
-        in.nextLine();
-        System.out.println("");
-        System.out.println("Se realizo configuaracion avanzada...");     
+        }
     }
+
+    public boolean isStatus() {
+        return status;
+    }
+
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
+    public String getOperation() {
+        return operation;
+    }
+
+    public void setOperation(String operation) {
+        this.operation = operation;
+    }
+
 //*********************************************************************************************************************************************************************************************************************
     /*
     ControlHotel
@@ -691,17 +618,18 @@ public class Engine {
         int location;
         
         while (controlHotelStats){
-            System.out.println("Seleccione la operacion que desea realizar:");
-            System.out.println("1 - Revisar estado de pisos."            );
-            System.out.println("2 - Administrador de habitaciones."     );
-            System.out.println("3 - Habilitar/Deshabilitar pisos"        );
-            System.out.println("4 - Agregar Piso"        );
-            System.out.println("5 - Eliminar Piso"        );
-            System.out.println("6 - Agregar paquete");
-            System.out.println("7 - Modificar paquete");
-            System.out.println("8 - Eliminar paquete");
-            System.out.println("9 - Ver paquetes");
-            System.out.println("10 - Regresar..."                         );
+            System.out.println("**************CONTROL DE HOTEL**************"   );
+            System.out.println("Seleccione la operacion que desea realizar:"    );
+            System.out.println("1 - Revisar estado de pisos."                   );
+            System.out.println("2 - Administrador de habitaciones."             );
+            System.out.println("3 - Habilitar/Deshabilitar pisos"               );
+            System.out.println("4 - Agregar Pisos"                               );
+            System.out.println("5 - Eliminar Piso"                              );
+            System.out.println("6 - Agregar paquete"                            );
+            System.out.println("7 - Modificar paquete"                          );
+            System.out.println("8 - Eliminar paquete"                           );
+            System.out.println("9 - Ver paquetes"                               );
+            System.out.println("10 - Regresar..."                               );
             
             System.out.println("opcion:");
             
@@ -709,7 +637,7 @@ public class Engine {
             
             switch (option) {
                 case "1":
-                    System.out.println("*************Revisar estado de pisos*************"     );
+                    System.out.println("*************Revisar estado de pisos*************");
                     //System.out.println(pisosHotel.size());
                     for(int i = 0; i < pisosHotel.size(); i++){
                         Piso p = pisosHotel.get(i);
@@ -869,6 +797,7 @@ public class Engine {
         String codHabitacion = null;
         
         while (reservaHotelStats){
+            System.out.println("***************RESERVACIONES****************");
             System.out.println("Seleccione la operacion que desea realizar:"    );
             System.out.println("1 - Realizar reservación"                       );
             System.out.println("2 - Modificar reservación"                      );
@@ -1003,8 +932,6 @@ public class Engine {
                     r.setNumPersonas(cantidadPersonas);
                     r.setTotalReserva(precioPaquete + precioHabitacion);
                     
-                    
-                    
                     System.out.println("La reservacion ha sido agregada con exito");
                     
                     validation = true;
@@ -1070,9 +997,10 @@ public class Engine {
         String option;
         boolean clienteHotelStats = true;
         
+        System.out.println("*************GESTOR DE CLIENTES*************");
         System.out.println("Seleccione la operacion que desea hacer:");
         System.out.println("1 - Agregar cliente "                 );
-        System.out.println("2 - Buscar cliente"                );
+        System.out.println("2 - Buscar cliente"                   );
         System.out.println("3 - Modificar cliente"                );
         System.out.println("3 - Eliminar cliente "                );
         System.out.println("5 - Regresar..."                      );
@@ -1115,7 +1043,443 @@ public class Engine {
             }//fin swicth(clienteHotelStats)
         }//fin while (clienteStats)
     } 
+//**************************************************************************************************************************************************************************************************************************************************************************************
+    private void servicioHotel(){
+        boolean servStats = true;
+        String option;
+        int pos;
+        
+        while(servStats){
+            System.out.println("*************GESTOR DE SERVICIOS*************");
+            System.out.println("Seleccione la operacion que desea realizar:");
+            System.out.println("1 - Ver servicios disponibles."            );
+            System.out.println("2 - Agregar servicio."            );
+            System.out.println("3 - Modificar Servicio"     );
+            System.out.println("4 - Eliminar Servicio"        );
+            System.out.println("5 - Regresar"        );
+            
+            option = in.nextLine();
+            
+            switch(option){
+                case "1":
+                    System.out.println("SERVICIOS DISPONIBLES EN EL SISTEMA");
+                    for(Servicio serv : this.servicios){
+                        System.out.println("Codigo: " + serv.getCodServicio() + ", Nombre: " + serv.getNombre() );
+                    }
+                    break;
+                
+                case "2":
+                    Servicio s = new Servicio();
+                    System.out.println("Ingrese el Nombre del servicio");
+                    s.setNombre(in.nextLine());
+                    s.setCodServicio(Servicio.servKey);
+                    this.servicios.add(s);
+                    Servicio.servKey++;
+                    System.out.println("Servicio agregado exitosamente");
+                    break;
+                    
+                case "3":
+                    System.out.println("SERVICIOS DISPONIBLES EN EL SISTEMA");
+                    for(Servicio serv : this.servicios){
+                        System.out.println("Codigo: " + serv.getCodServicio() + ", Nombre: " + serv.getNombre() );
+                    }
+                    
+                    System.out.println("Ingrese el codigo del servicio");
+                    int cod = Integer.parseInt(in.nextLine());
+                    
+                    if(this.buscarServicioPorCodigo(cod) == -1){
+                        System.out.println("El codigo ingresado no existe");
+                    }else{
+                        Servicio mod = new Servicio();
+                        System.out.println("Ingrese el Nombre del servicio");
+                        mod.setNombre(in.nextLine());
+                        mod.setCodServicio(cod);
+                        this.servicios.remove(this.buscarServicioPorCodigo(cod));
+                        
+                        if(servicios.size()==0){
+                            this.servicios.add(mod);
+                        }else{
+                            this.servicios.add(this.buscarServicioPorCodigo(cod), mod);
+                        }
+                        System.out.println("Servicio modificado exitosamente");
+                    }
+                    break;
+                
+                case "4":
+                    System.out.println("SERVICIOS DISPONIBLES EN EL SISTEMA");
+                    for(Servicio serv : this.servicios){
+                        System.out.println("Codigo: " + serv.getCodServicio() + ", Nombre: " + serv.getNombre() );
+                    }
+                    
+                    System.out.println("Ingrese el codigo del servicio");
+                    pos = Integer.parseInt(in.nextLine());
+                    
+                    if(this.buscarServicioPorCodigo(pos) == -1){
+                        System.out.println("El codigo ingresado no existe");
+                    }else{
+                        this.servicios.remove(pos);
+                        System.out.println("Servicio removido exitosamente");
+                    }
+                    break;
+                    
+                case "5":
+                    servStats = false;
+                    break;
+                    
+                default:
+                    System.out.println("Ingrese una opcion valida, por favor");
+                    break;
+            } 
+        }
+    }       
+//*******************************************************************************************************************************************************************************************************************************************
+    private void reporteVentas(){
+        String option;
+        boolean adminHotelStats = true;
+        Date hoy = new Date();
+        Calendar cal = Calendar.getInstance();
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy"); //sirve para dar un formato sencillo a la fecha
+        ArrayList<String> semana = new ArrayList();
+        
+        System.out.println("**************REPORTE DE VENTAS**************");
+        System.out.println("Seleccione la operacion que desea hacer:");
+        System.out.println("1 - Ver Reporte semanal de reservaciones");
+        System.out.println("2 - Ver Reporte semanal de ventas"       );
+        System.out.println("3 - Regresar..."                         );
+            
+        System.out.println("opcion:"); 
 
+        cal.setTime(hoy);
+        hoy = cal.getTime();
+        
+        for(int i = 0; i < 7; i++){
+            semana.add(sdf.format(hoy));
+            cal.add(Calendar.DATE, 1);
+            hoy = cal.getTime();
+        }
+
+        while(adminHotelStats){
+        
+            option = in.nextLine();
+
+            switch (option) {
+                case "1":
+                    hoy = cal.getTime();
+                    int idCliente;
+                    for(Reservacion r : this.reservaciones){
+                        if(r.getFechaHospedaje().equals(semana.get(0)) 
+                                || r.getFechaHospedaje().equals(semana.get(1)) 
+                                || r.getFechaHospedaje().equals(semana.get(2))
+                                || r.getFechaHospedaje().equals(semana.get(3))
+                                || r.getFechaHospedaje().equals(semana.get(4))
+                                || r.getFechaHospedaje().equals(semana.get(5))
+                                || r.getFechaHospedaje().equals(semana.get(6))                                
+                                ){
+                            
+                            idCliente = r.getNumCliente();
+                            Cliente c = this.clientes.get(this.buscarClientePorCodigo(Integer.toString(idCliente)));
+                            
+                            System.out.println("Reserva Numero: " + r.getCodReservacion());
+                            System.out.println("\t"+"Cliente: " + c.getNombre() 
+                                    + ",Fecha Hospedaje: " + r.getFechahospedaje() 
+                                    + ", Habtiacion: " + r.getCodHabitacion()
+                                    + ", Numero de Personas: " + r.getNumPersonas()
+                                    + ", Dias Reserva: " + r.getDias()
+                                    + ", Total: " + r.getTotalReserva()
+                            );
+                        }
+                    }
+        cal.add(Calendar.DATE, 10); // add 10 days             
+                    break;
+                    
+                case "2":
+                    System.out.println("Lo sentimos, estamos trabajando para darle un buen servicio");
+                    break;  
+                    
+                case "3":
+                    adminHotelStats = false;
+                    break;
+                    
+                default:
+                    System.out.println("Favor ingrese una opcion valida");
+                    break;
+            }//fin swicth(adminHotelStats)
+        }//fin while (adminHotelStats)
+    }
+//****************************************************************************Funciones Especiales **************************************************************************************************************************************************
+    public void agregarPaquete(){
+        Paquete p = new Paquete();
+        p.setCodPaquete(p.codPaquete);
+        System.out.println("");
+        System.out.println("Ingrese el nombre del paquete");
+        p.setNombre(in.nextLine());
+        System.out.println("");
+        System.out.println("Ingrese la descripcion de servicios que brinda el paquete");
+        p.setDescripcion(in.nextLine());
+        System.out.println("");
+        System.out.println("Ingrese el precio del paquete");
+        p.setPrecio(Double.parseDouble(in.nextLine()));
+        p.configServiciosPaquete(servicios);
+        this.packs.add(p);
+        p.codPaquete++; //incrementando el codigo del piso para la proxima insercion
+        System.out.println("");
+        System.out.println("Paquete agregado exitosamente con codigo: " + p.getCodPaquete());
+        System.out.println("");
+    }
+    
+    private int modificarPaquete(int cod){
+        int location = this.buscarPackPorCodigo(cod);
+        if(location > -1 ){
+            this.pisosHotel.remove(location);
+            
+            Paquete p = new Paquete();
+            p.setCodPaquete(cod);
+            System.out.println("");
+            System.out.println("Ingrese el nombre del paquete");
+            p.setNombre(in.nextLine());
+            System.out.println("");
+            System.out.println("Ingrese la descripcion de servicios que brinda el paquete");
+            p.setDescripcion(in.nextLine());
+            System.out.println("");
+            System.out.println("Ingrese el precio del paquete");
+            p.setPrecio(Double.parseDouble(in.nextLine()));
+            this.packs.add(location, p);
+            System.out.println("");
+            System.out.println("Paquete modificado exitosamente con codigo: " + p.getCodPaquete());
+            System.out.println("");
+            return 1;
+        }else{
+            return 0;
+        }
+    }
+    
+    private int eliminarPaquete(int cod){
+        int location = this.buscarPackPorCodigo(cod);
+        if(location > -1 ){
+            this.packs.remove(location);
+            return 1;
+        }else{
+            return 0;
+        }
+    }
+    
+    private int buscarPackPorCodigo(int codigo){
+        int pisoLocation = -1;
+        //-1 es un valor por defecto, indica que no se encontró el piso solicitado
+        //buscando a traves del arraylist el codigo del piso
+        for(int i = 0; i < packs.size(); i++){
+            Paquete p = packs.get(i);
+            int cod = p.getCodPaquete();
+
+            if(cod == codigo){
+                pisoLocation = i;
+            }
+        }
+        return pisoLocation;
+    }
+//************************************************************************************************************************************************************************************************************************************************************************
+    public void añadirServicio(){        
+            System.out.println("");
+            System.out.println("********Configuracion de Servicios********");
+            System.out.println("Seleccione el opcion que desea agregar:");
+            System.out.println("1 - Configuracion por default");
+            System.out.println("2 - Configuracion personalizada");
+            System.out.println("3 - Omitir");
+            System.out.println("opcion:");
+        
+        in.nextLine();    
+        String option = in.nextLine();
+        
+            switch(option){
+                case "1":
+                    //agregando servicios
+                    Servicio s = new Servicio(Servicio.servKey,"Buffet");
+                    this.servicios.add(s);
+                    Servicio.servKey++;
+                    s = new Servicio(Servicio.servKey,"Piscina Ilimitada");
+                    this.servicios.add(s);
+                    Servicio.servKey++;
+                    s = new Servicio(Servicio.servKey,"Servicio habitacion");
+                    this.servicios.add(s);
+                    Servicio.servKey++;
+                    s = new Servicio(Servicio.servKey,"Minibar Ilimitado");
+                    this.servicios.add(s);
+                    Servicio.servKey++;
+                    s = new Servicio(Servicio.servKey,"Internet Ilimitado");
+                    this.servicios.add(s);
+                    Servicio.servKey++;
+                    
+                    
+                    break;
+                    
+                case "2":
+                    System.out.println("");
+                    System.out.println("Desea agregar servicios personalizados?");
+                    System.out.println("Presione Y para aceptar u otra para agregar configuracion por defecto.");
+                    System.out.println("");
+                    if(in.nextLine().equals("y")){
+                        //Inicializando configuracion personalizada
+                        System.out.println("Cuantos servicios desea agregar?");
+                        int servicio=in.nextInt();
+                        for(int j = 0; j < servicio; j++){
+                            System.out.println("Ingrese descripcion de servicio:");
+                            String descripserv=in.nextLine();
+                            s = new Servicio(Servicio.servKey,descripserv);
+                            this.servicios.add(s);
+                            Servicio.servKey++;
+                            in.nextLine();
+                            System.out.println("Servicio ingresado");
+                            System.out.println("");
+                        }
+                        
+                        System.out.println("Desea agregar servicios existentes por defecto?");
+                        if(in.nextLine().equals("y")){
+                            //agregando servicios existentes
+                            System.out.println("Desea agregar buffet?");
+                            if(in.nextLine().equals("y")){
+                                s = new Servicio(Servicio.servKey,"Buffet");
+                                this.servicios.add(s);
+                                Servicio.servKey++;
+                            }
+                            System.out.println("Desea agregar Piscina Ilimitada?");
+                            if(in.nextLine().equals("y")){
+                                s = new Servicio(Servicio.servKey,"Piscina Ilimitada");
+                                this.servicios.add(s);
+                                Servicio.servKey++;
+                            }
+                            System.out.println("Desea agregar Servicio habitacion?");
+                            if(in.nextLine().equals("y")){
+                                s = new Servicio(Servicio.servKey,"Servicio habitacion");
+                                this.servicios.add(s);
+                                Servicio.servKey++;
+                            }
+                            System.out.println("Desea agregar Minibar Ilimitado?");
+                            if(in.nextLine().equals("y")){
+                                s = new Servicio(Servicio.servKey,"Minibar Ilimitado");
+                                this.servicios.add(s);
+                                Servicio.servKey++;
+                            }
+                            System.out.println("Desea agregar Internet Ilimitado?");
+                            if(in.nextLine().equals("y")){
+                                s = new Servicio(Servicio.servKey,"Internet Ilimitado");
+                                this.servicios.add(s);
+                                Servicio.servKey++;
+                            }
+                        }  
+                    }   
+                    else{
+                        //agregando servicios
+                        s = new Servicio(Servicio.servKey,"Buffet");
+                        this.servicios.add(s);
+                        Servicio.servKey++;
+                        s = new Servicio(Servicio.servKey,"Piscina Ilimitada");
+                        this.servicios.add(s);
+                        Servicio.servKey++;
+                        s = new Servicio(Servicio.servKey,"Servicio habitacion");
+                        this.servicios.add(s);
+                        Servicio.servKey++;
+                        s = new Servicio(Servicio.servKey,"Minibar Ilimitado");
+                        this.servicios.add(s);
+                        Servicio.servKey++;
+                        s = new Servicio(Servicio.servKey,"Internet Ilimitado");
+                        this.servicios.add(s);
+                        Servicio.servKey++;
+                    }
+                    break;
+                case "3":
+                    break;
+            }
+            
+        in.nextLine();
+        System.out.println("");
+        System.out.println("Se realizo configuaracion avanzada...");     
+    }
+
+    private int buscarServicioPorCodigo(int codServicio){
+        int location = -1;
+        //-1 es un valor por defecto, indica que no se encontró el piso solicitado
+        //buscando a traves del arraylist el codigo del piso
+        for(int i = 0; i < this.servicios.size(); i++){
+            Servicio s = this.servicios.get(i);
+            int cod = s.getCodServicio();
+
+            if(cod == codServicio){
+                location = i;
+            }
+        }
+        return location;
+    }
+//*****************************************************************************************************************************************************************************************************************************************************************************
+    /*
+    agregarPiso
+    Sirve para agregar un piso adicional al edificio
+    */
+    public void agregarPiso(){
+        Piso p = new Piso();
+        p.setCodPiso(Character.toString(Piso.letraPiso));
+        this.pisosHotel.add(p);
+        Piso.letraPiso++; //incrementando el codigo del piso para la proxima insercion
+        System.out.println("Piso agregado exitosamente con codigo: " + p.getCodPiso());
+        System.out.println("");
+    }
+    
+    /*eliminarPiso
+    Sirve para eliminar un piso del edificio.
+    PARAMETROS
+    codigoPiso: Codigo del piso a eliminar
+    RETORNA
+    1: Eliminacion exitosa
+    0: Eliminacion fallida
+    */
+    
+    private int eliminarPiso(String codPiso){
+        int location = this.buscarPisoPorCodigo(codPiso);
+        if(location > -1 ){
+            this.pisosHotel.remove(location);
+            return 1;
+        }else{
+            return 0;
+        }
+    }
+    
+    /*
+    buscarPisoPorCodigo
+    Sirve para buscar un piso por código
+    retorna la ubicacion del piso que se quiere buscar
+    retorna -1 si no se encuentra nada en el ArrayList
+    */
+    
+    private int buscarPisoPorCodigo(String codigo){
+        int pisoLocation = -1;
+        //-1 es un valor por defecto, indica que no se encontró el piso solicitado
+        //buscando a traves del arraylist el codigo del piso
+        for(int i = 0; i < pisosHotel.size(); i++){
+            Piso p = pisosHotel.get(i);
+            String codPiso = p.getCodPiso();
+
+            if(codPiso.equals(codigo)){
+                pisoLocation = i;
+            }
+        }
+        return pisoLocation;
+    }
+ 
+//************************************************************************************************************************************************************************************************************************************************************************************
+    private int buscarClientePorCodigo(String codigo){
+        int location = -1;
+        //-1 es un valor por defecto, indica que no se encontró el piso solicitado
+        //buscando a traves del arraylist el codigo del piso
+        for(int i = 0; i < this.clientes.size(); i++){
+            Cliente c = this.clientes.get(i);
+            String codPiso = c.getIdCliente();
+
+            if(codPiso.equals(codigo)){
+                location = i;
+            }
+        }
+        return location;
+    }
+    
     private void inputCliente(){
         Cliente c = new Cliente();
         
@@ -1212,316 +1576,5 @@ public class Engine {
 
     public void deleteCliente(){
     } 
-//*******************************************************************************************************************************************************************************************************************************************
-    private void reporteReservas(){
-        String option;
-        boolean adminHotelStats = true;
-        Date hoy = new Date();
-        Calendar cal = Calendar.getInstance();
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy"); //sirve para dar un formato sencillo a la fecha
-        ArrayList<String> semana = new ArrayList();
-        
-        System.out.println("Seleccione la operacion que desea hacer:");
-        System.out.println("1 - Ver Reporte semanal de reservaciones");
-        System.out.println("2 - Ver Reporte semanal de ventas"       );
-        System.out.println("3 - Regresar..."                         );
-            
-        System.out.println("opcion:"); 
-
-        cal.setTime(hoy);
-        hoy = cal.getTime();
-        
-        for(int i = 0; i < 7; i++){
-            semana.add(sdf.format(hoy));
-            cal.add(Calendar.DATE, 1);
-            hoy = cal.getTime();
-        }
-
-        while(adminHotelStats){
-        
-            option = in.nextLine();
-
-            switch (option) {
-                case "1":
-                    hoy = cal.getTime();
-                    int idCliente;
-                    for(Reservacion r : this.reservaciones){
-                        if(r.getFechaHospedaje().equals(semana.get(0)) 
-                                || r.getFechaHospedaje().equals(semana.get(1)) 
-                                || r.getFechaHospedaje().equals(semana.get(2))
-                                || r.getFechaHospedaje().equals(semana.get(3))
-                                || r.getFechaHospedaje().equals(semana.get(4))
-                                || r.getFechaHospedaje().equals(semana.get(5))
-                                || r.getFechaHospedaje().equals(semana.get(6))                                
-                                ){
-                            
-                            idCliente = r.getNumCliente();
-                            Cliente c = this.clientes.get(this.buscarClientePorCodigo(Integer.toString(idCliente)));
-                            
-                            System.out.println("Reserva Numero: " + r.getCodReservacion());
-                            System.out.println("\t"+"Cliente: " + c.getNombre() 
-                                    + ",Fecha Hospedaje: " + r.getFechahospedaje() 
-                                    + ", Habtiacion: " + r.getCodHabitacion()
-                                    + ", Numero de Personas: " + r.getNumPersonas()
-                                    + ", Dias Reserva: " + r.getDias()
-                                    + ", Total: " + r.getTotalReserva()
-                            );
-                        }
-                    }
-        cal.add(Calendar.DATE, 10); // add 10 days
-
-                                        
-                    break;
-                    
-                case "2":
-                    System.out.println("Lo sentimos, estamos trabajando para darle un buen servicio");
-                    break;  
-                    
-                case "3":
-                    adminHotelStats = false;
-                    break;
-                    
-                default:
-                    System.out.println("Favor ingrese una opcion valida");
-                    break;
-            }//fin swicth(adminHotelStats)
-        }//fin while (adminHotelStats)
-    }
-//********************************************************************************************************************************************************************************************************************************************************
-    private void agregarPaquete(){
-        Paquete p = new Paquete();
-        p.setCodPaquete(p.codPaquete);
-        System.out.println("Ingrese el nombre del paquete");
-        p.setNombre(in.nextLine());
-        System.out.println("Ingrese la descripcion de servicios que brinda el paquete");
-        p.setDescripcion(in.nextLine());
-        System.out.println("Ingrese el precio del paquete");
-        p.setPrecio(Double.parseDouble(in.nextLine()));
-        p.configServiciosPaquete(servicios);
-        this.packs.add(p);
-        p.codPaquete++; //incrementando el codigo del piso para la proxima insercion
-        System.out.println("Paquete agregado exitosamente con codigo: " + p.getCodPaquete());
-        System.out.println("");
-    }
     
-    private int eliminarPaquete(int cod){
-        int location = this.buscarPackPorCodigo(cod);
-        if(location > -1 ){
-            this.packs.remove(location);
-            return 1;
-        }else{
-            return 0;
-        }
-    }
-    
-    private int modificarPaquete(int cod){
-        int location = this.buscarPackPorCodigo(cod);
-        if(location > -1 ){
-            this.pisosHotel.remove(location);
-            
-            Paquete p = new Paquete();
-            p.setCodPaquete(cod);
-            System.out.println("Ingrese el nombre del paquete");
-            p.setNombre(in.nextLine());
-            System.out.println("Ingrese la descripcion de servicios que brinda el paquete");
-            p.setDescripcion(in.nextLine());
-            System.out.println("Ingrese el precio del paquete");
-            p.setPrecio(Double.parseDouble(in.nextLine()));
-            this.packs.add(location, p);
-            System.out.println("Paquete modificado exitosamente con codigo: " + p.getCodPaquete());
-            System.out.println("");
-            return 1;
-        }else{
-            return 0;
-        }
-    }
-    
-    private int buscarServicioPorCodigo(int codServicio){
-        int location = -1;
-        //-1 es un valor por defecto, indica que no se encontró el piso solicitado
-        //buscando a traves del arraylist el codigo del piso
-        for(int i = 0; i < this.servicios.size(); i++){
-            Servicio s = this.servicios.get(i);
-            int cod = s.getCodServicio();
-
-            if(cod == codServicio){
-                location = i;
-            }
-        }
-        return location;
-    }
-    
-    private void gestionarServicios(){
-        boolean servStats = true;
-        String option;
-        int pos;
-        
-        while(servStats){
-            System.out.println("Seleccione la operacion que desea realizar:");
-            System.out.println("1 - Ver servicios disponibles."            );
-            System.out.println("2 - Agregar servicio."            );
-            System.out.println("3 - Modificar Servicio"     );
-            System.out.println("4 - Eliminar Servicio"        );
-            System.out.println("5 - Regresar"        );
-            
-            option = in.nextLine();
-            
-            switch(option){
-                case "1":
-                    System.out.println("SERVICIOS DISPONIBLES EN EL SISTEMA");
-                    for(Servicio serv : this.servicios){
-                        System.out.println("Codigo: " + serv.getCodServicio() + ", Nombre: " + serv.getNombre() );
-                    }
-                    
-                    break;
-                
-                case "2":
-                    Servicio s = new Servicio();
-                    System.out.println("Ingrese el Nombre del servicio");
-                    s.setNombre(in.nextLine());
-                    s.setCodServicio(Servicio.servKey);
-                    this.servicios.add(s);
-                    Servicio.servKey++;
-                    System.out.println("Servicio agregado exitosamente");
-                    break;
-                    
-                case "3":
-                    System.out.println("SERVICIOS DISPONIBLES EN EL SISTEMA");
-                    for(Servicio serv : this.servicios){
-                        System.out.println("Codigo: " + serv.getCodServicio() + ", Nombre: " + serv.getNombre() );
-                    }
-                    
-                    System.out.println("Ingrese el codigo del servicio");
-                    int cod = Integer.parseInt(in.nextLine());
-                    
-                    if(this.buscarServicioPorCodigo(cod) == -1){
-                        System.out.println("El codigo ingresado no existe");
-                    }else{
-                        Servicio mod = new Servicio();
-                        System.out.println("Ingrese el Nombre del servicio");
-                        mod.setNombre(in.nextLine());
-                        mod.setCodServicio(cod);
-                        this.servicios.remove(this.buscarServicioPorCodigo(cod));
-                        
-                        if(servicios.size()==0){
-                            this.servicios.add(mod);
-                        }else{
-                            this.servicios.add(this.buscarServicioPorCodigo(cod), mod);
-                        }
-                    
-                        System.out.println("Servicio modificado exitosamente");
-                    }
-                    break;
-                
-                case "4":
-                    System.out.println("SERVICIOS DISPONIBLES EN EL SISTEMA");
-                    for(Servicio serv : this.servicios){
-                        System.out.println("Codigo: " + serv.getCodServicio() + ", Nombre: " + serv.getNombre() );
-                    }
-                    
-                    System.out.println("Ingrese el codigo del servicio");
-                    pos = Integer.parseInt(in.nextLine());
-                    
-                    if(this.buscarServicioPorCodigo(pos) == -1){
-                        System.out.println("El codigo ingresado no existe");
-                    }else{
-                        this.servicios.remove(pos);
-                        System.out.println("Servicio removido exitosamente");
-                    }
-                    
-                    break;
-                    
-                case "5":
-                    servStats = false;
-                    break;
-                    
-                default:
-                    System.out.println("Ingrese una opcion valida, por favor");
-                    break;
-            } 
-        }
-    }  
-    /*
-    agregarPiso
-    Sirve para agregar un piso adicional al edificio
-    */
-    public void agregarPiso(){
-        Piso p = new Piso();
-        p.setCodPiso(Character.toString(Piso.letraPiso));
-        this.pisosHotel.add(p);
-        Piso.letraPiso++; //incrementando el codigo del piso para la proxima insercion
-        System.out.println("Piso agregado exitosamente con codigo: " + p.getCodPiso());
-        System.out.println("");
-    }
-    
-    /*eliminarPiso
-    Sirve para eliminar un piso del edificio.
-    PARAMETROS
-    codigoPiso: Codigo del piso a eliminar
-    RETORNA
-    1: Eliminacion exitosa
-    0: Eliminacion fallida
-    */
-    
-    private int eliminarPiso(String codPiso){
-        int location = this.buscarPisoPorCodigo(codPiso);
-        if(location > -1 ){
-            this.pisosHotel.remove(location);
-            return 1;
-        }else{
-            return 0;
-        }
-    }
-    
-    /*
-    buscarPisoPorCodigo
-    Sirve para buscar un piso por código
-    retorna la ubicacion del piso que se quiere buscar
-    retorna -1 si no se encuentra nada en el ArrayList
-    */
-    
-    private int buscarPisoPorCodigo(String codigo){
-        int pisoLocation = -1;
-        //-1 es un valor por defecto, indica que no se encontró el piso solicitado
-        //buscando a traves del arraylist el codigo del piso
-        for(int i = 0; i < pisosHotel.size(); i++){
-            Piso p = pisosHotel.get(i);
-            String codPiso = p.getCodPiso();
-
-            if(codPiso.equals(codigo)){
-                pisoLocation = i;
-            }
-        }
-        return pisoLocation;
-    }
-    
-    private int buscarPackPorCodigo(int codigo){
-        int pisoLocation = -1;
-        //-1 es un valor por defecto, indica que no se encontró el piso solicitado
-        //buscando a traves del arraylist el codigo del piso
-        for(int i = 0; i < packs.size(); i++){
-            Paquete p = packs.get(i);
-            int cod = p.getCodPaquete();
-
-            if(cod == codigo){
-                pisoLocation = i;
-            }
-        }
-        return pisoLocation;
-    }
- 
-    private int buscarClientePorCodigo(String codigo){
-        int location = -1;
-        //-1 es un valor por defecto, indica que no se encontró el piso solicitado
-        //buscando a traves del arraylist el codigo del piso
-        for(int i = 0; i < this.clientes.size(); i++){
-            Cliente c = this.clientes.get(i);
-            String codPiso = c.getIdCliente();
-
-            if(codPiso.equals(codigo)){
-                location = i;
-            }
-        }
-        return location;
-    }
 }
