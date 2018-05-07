@@ -60,7 +60,6 @@ public class Piso {
 
     public void getRoomsStatus(){
         System.out.println("Estado de las habitaciones");
-        
         for(Habitacion h : this.habitaciones){
             System.out.println("Habitacion: " + h.getCodHabitacion() + " Habilitado: " + h.isHabilitado() + " Disponible: " + h.isDisponible() );
         }
