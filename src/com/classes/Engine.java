@@ -441,10 +441,8 @@ public class Engine {
                                 }
                                 pi.habitaciones.add(h);
                             }
-                            
                             this.pisosHotel.add(pi);   
                         }    
-                        
                         break;    
                     } 
                         
@@ -903,7 +901,7 @@ public class Engine {
         System.out.println("1 - Agregar cliente "                 );
         System.out.println("2 - Buscar cliente"                );
         System.out.println("3 - Modificar cliente"                );
-        System.out.println("3 - Eliminar cliente "                );
+        System.out.println("4 - Eliminar cliente "                );
         System.out.println("5 - Regresar..."                      );
             
         System.out.println("opcion:");        
@@ -915,22 +913,18 @@ public class Engine {
             
             switch (option) {
                 case "1":
-                    System.out.println("***********Agregar cliente***********");
                     this.inputCliente();
                     break;
                     
                 case "2":
-                    System.out.println("************Buscar cliente************");
                     this.searchCliente();
                     break;   
                     
                 case "3":
-                    System.out.println("***********Modificar cliente**********");
-                    this.deleteCliente();
+                    this.modCliente();
                     break; 
                     
                 case "4":
-                    System.out.println("***********Eliminar cliente**********");
                     this.deleteCliente();
                     break;   
                     
@@ -948,8 +942,7 @@ public class Engine {
     private void inputCliente(){
         Cliente c = new Cliente();
         
-        String nombre,apellido,dui,sexo,telefono,numtarjeta,email;
-        int edad;
+        System.out.println("***************Ingreso Cliente*****************");
         
         String id = Integer.toString(Cliente.clienteKey);
         
@@ -984,20 +977,21 @@ public class Engine {
         c.setNumTarjeta(in.nextLine());
         System.out.println("");
         System.out.println("Datos ingresados exitosamente...");
-        
         System.out.println("");
         
         this.clientes.add(c);
         Cliente.clienteKey++;
+        
+        this.initSystem();
     } 
     
     private void searchCliente(){
         boolean f= true;
         
         while(f){
-            System.out.println("***************Buscando Cliente*****************");
+            System.out.println("***************Buscador Cliente*****************");
             System.out.println("");
-            System.out.println("Ingrese idCliente:");
+            System.out.println("Ingrese idCliente a buscar:");
             
             String clt= in.nextLine();
             
@@ -1006,21 +1000,21 @@ public class Engine {
                     System.out.println("");
                     System.out.println("Cliente "+clientes.get(i).getIdCliente()+" ha sido encontrado...");
                     System.out.println("");
-                    System.out.println("Nombre:"+clientes.get(i).getNombre());
+                    System.out.println("Nombre: "+clientes.get(i).getNombre());
                     System.out.println("");
-                    System.out.println("Apellido:"+clientes.get(i).getApellido());
+                    System.out.println("Apellido: "+clientes.get(i).getApellido());
                     System.out.println("");
-                    System.out.println("DUI:"+clientes.get(i).getDui());
+                    System.out.println("DUI: "+clientes.get(i).getDui());
                     System.out.println("");
-                    System.out.println("Edad:"+clientes.get(i).getEdad());
+                    System.out.println("Edad: "+clientes.get(i).getEdad());
                     System.out.println("");
-                    System.out.println("Sexo:"+clientes.get(i).getSexo());
+                    System.out.println("Sexo: "+clientes.get(i).getSexo());
                     System.out.println("");
-                    System.out.println("Ingrese Telefono:"+clientes.get(i).getTelefono());
+                    System.out.println("Ingrese Telefono: "+clientes.get(i).getTelefono());
                     System.out.println("");
-                    System.out.println("E-mail:"+clientes.get(i).getEmail());
+                    System.out.println("E-mail: "+clientes.get(i).getEmail());
                     System.out.println("");
-                    System.out.println("Ingrese numero tarjeta:"+clientes.get(i).getNumTarjeta());
+                    System.out.println("Ingrese numero tarjeta: "+clientes.get(i).getNumTarjeta());
                     System.out.println("");
                     f=false;
                 }
@@ -1035,14 +1029,143 @@ public class Engine {
                 f=false;
             }
         }
+        this.initSystem();
     } 
     
-    public void modCliente(){}
+    public void modCliente(){
+        Cliente c = new Cliente();
+        
+        boolean f= true;
+        
+        while(f){
+            System.out.println("***************Modificador Cliente*****************");
+            System.out.println("");
+            System.out.println("Ingrese idCliente a modificar:");
+            
+            String clt= in.nextLine();
 
+            for(int i=0; i<clientes.size();i++){
+                if(clt.equals(clientes.get(i).getIdCliente())){
+                        System.out.println("");
+                        System.out.println("Esta modificando cliente id: "+(Cliente.clienteKey-1));
+                        System.out.println("");
+                        System.out.println("1 - Nombre: "+clientes.get(i).getNombre());
+                        System.out.println("");                     
+                        System.out.println("2 - Apellido: "+clientes.get(i).getApellido());
+                        System.out.println("");
+                        System.out.println("3 - DUI: "+clientes.get(i).getDui());
+                        System.out.println("");
+                        System.out.println("4 - Edad: "+clientes.get(i).getEdad());
+                        System.out.println("");
+                        System.out.println("5 - Sexo: "+clientes.get(i).getSexo());
+                        System.out.println("");
+                        System.out.println("6 - Ingrese Telefono: "+clientes.get(i).getTelefono());
+                        System.out.println("");
+                        System.out.println("7 - E-mail: "+clientes.get(i).getEmail());
+                        System.out.println("");
+                        System.out.println("8 - Numero tarjeta: "+clientes.get(i).getNumTarjeta());
+                        System.out.println("");
+                        System.out.println("Elija dato a modificar: ");
+                        String option=in.nextLine();
+                        switch(option){
+                            case "1":
+                                System.out.println("Ingrese nombre:");
+                                c.setNombre(in.nextLine());
+                                System.out.println("");
+                                System.out.println("Nombre modificado: "+clientes.get(i).getNombre());
+                                System.out.println("");
+                                break;
+                                
+                            case "2":
+                                System.out.println("Ingrese apellido:");
+                                c.setApellido(in.nextLine());
+                                System.out.println("");
+                                System.out.println("Apellido modificado: "+clientes.get(i).getApellido());
+                                System.out.println("");
+                                break;
+                            
+                            case "3":
+                                System.out.println("Ingrese DUI:");
+                                c.setDui(in.nextLine());
+                                System.out.println("");
+                                System.out.println("DUI modificado: "+clientes.get(i).getDui());
+                                System.out.println("");
+                                break;
+                                
+                            case "4":
+                                System.out.println("Ingrese edad:");
+                                c.setEdad(in.nextInt());
+                                System.out.println("");
+                                System.out.println("Edad modificado : "+clientes.get(i).getEdad());
+                                System.out.println("");
+                                break;   
+                                
+                            case "5":
+                                in.nextLine();
+                                System.out.println("Ingrese sexo:");
+                                c.setSexo(in.nextLine());
+                                System.out.println("");
+                                System.out.println("Sexo modificado : "+clientes.get(i).getSexo());
+                                System.out.println("");
+                                break;   
+                                
+                            case "6":
+                                System.out.println("Ingrese telefono:");
+                                c.setTelefono(in.nextLine());
+                                System.out.println("");
+                                System.out.println("Telefono modificado : "+clientes.get(i).getTelefono());
+                                System.out.println("");
+                                break;    
+                                
+                            case "7":
+                                System.out.println("Ingrese e-mail:");
+                                c.setEmail(in.nextLine());
+                                System.out.println("");
+                                System.out.println("E-mail modificado : "+clientes.get(i).getEmail());
+                                System.out.println("");
+                                break;
+                                
+                            case "8":
+                                System.out.println("Ingrese numero tarjeta:");
+                                c.setNumTarjeta(in.nextLine());
+                                System.out.println("");
+                                System.out.println("Numero tarjeta modificado: "+clientes.get(i).getNumTarjeta());
+                                System.out.println("");
+                                break;  
+                        }
+                        f=false;
+                        
+                        System.out.println("Datos modificados exitosamente...");
+                        System.out.println("");
+                        
+                        this.clientes.add(c);
+                        Cliente.clienteKey++;
+                }
+            }
+        }
+        this.initSystem();
+    }
+    
     public void deleteCliente(){
+        Cliente c = new Cliente();
+        
+        System.out.println("***************Eliminar Cliente*****************");
+        System.out.println("");
+        System.out.println("Ingrese idCliente a buscar:");
+            
+        String clt= in.nextLine();
+            
+        for(int i=0; i<clientes.size();i++){
+            if(clt.equals(clientes.get(i).getIdCliente())){
+                clientes.remove(i); 
+            }
+        }
+        System.out.println("");
+        System.out.println("Cliente eliminado exitosamente...");
+        this.initSystem();
     } 
 //*******************************************************************************************************************************************************************************************************************************************
-    private void reporteReservas(){
+    public void reporteReservas(){
         String option;
         boolean adminHotelStats = true;
         Date hoy = new Date();
