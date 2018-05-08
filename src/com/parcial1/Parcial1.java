@@ -31,10 +31,11 @@ public class Parcial1 {
         
         if(in.nextLine().equals("y")){
             system.defaultSettings();        //Inicializando configuracion por defecto
-        }
-        else{
+            system.initSystem(); //Iniciando sistema
+        }else{
             System.out.println(""); 
-            System.out.println("Desea ingresar la configuracion avanzada de hotel?");
+            System.out.println("Desea ingresar al modulo avanzado del hotel?");
+            System.out.println("El modulo avanzado permite establecer los precios de la habitaciones de manera mas rapida");
             System.out.println("Presione Y para aceptar o N para configuracion por defecto");
             System.out.println("Opcion:");
             if(in.nextLine().equals("y")){
@@ -44,7 +45,6 @@ public class Parcial1 {
             }
             else if(in.nextLine().equals("n")){
                 System.out.println("Iniciando con la configuracion por defecto...");
-                system.defaultSettings(); //Inicializando configuracion por defecto
                 system.initSystem(); //Iniciando sistema
             }    
         }

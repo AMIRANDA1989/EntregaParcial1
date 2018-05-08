@@ -132,7 +132,7 @@ public class Engine {
         
         //agregando habitaciones de los pisos
         for(int i = 0; i < 7; i++){
-            pi = new Piso(" "+Piso.letraPiso,true);
+            pi = new Piso(""+Piso.letraPiso,true);
             Piso.letraPiso++;
             
             if(i==5 || i==6){
@@ -336,7 +336,7 @@ public class Engine {
                     
                         //agregando pisos
                         for(int i = 0; i < piso; i++){
-                            pi = new Piso(" "+Piso.letraPiso,true);
+                            pi = new Piso(""+Piso.letraPiso,true);
                             Piso.letraPiso++;
 
                             if(i==piso-1 || i==piso-2){
@@ -424,7 +424,7 @@ public class Engine {
                     
                         //agregando pisos
                         for(int i = 0; i < piso; i++){
-                            pi = new Piso(" "+Piso.letraPiso,true);
+                            pi = new Piso(""+Piso.letraPiso,true);
                             Piso.letraPiso++;
                             
                             if(i==piso-1 || i==piso-2){
@@ -441,14 +441,16 @@ public class Engine {
                                 }
                                 pi.habitaciones.add(h);
                             }
+                            
+                            this.pisosHotel.add(pi);   
                         }    
-                        this.pisosHotel.add(pi);   
+                        
                         break;    
                     } 
                         
                     //agregando pisos
                     for(int i = 0; i < piso; i++){
-                        pi = new Piso(" "+Piso.letraPiso,true);
+                        pi = new Piso(""+Piso.letraPiso,true);
                         Piso.letraPiso++;
 
                         if(i==piso-1 || i==piso-2){
